@@ -1,0 +1,6 @@
+[submodule "prod/SusyNtuple"]
+	path = prod/SusyNtuple
+	url = git@github.com:gerbaudo/SusyNtuple.git
+[submodule "prod/SusyCommon"]
+	path = prod/SusyCommon
+	url = git@github.com:gerbaudo/SusyCommon.git
