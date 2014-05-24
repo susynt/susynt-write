@@ -29,8 +29,10 @@ echo "Starting                          -- `date`"
 
 cd    ${PROD_DIR}
 
-svn co svn+ssh://svn.cern.ch/reps/atlasoff/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-03-04               SUSYTools
-svn co svn+ssh://svn.cern.ch/reps/atlasphys/Physics/SUSY/Analyses/WeakProduction/MultiLep/tags/MultiLep-01-06-01    MultiLep
+git clone git@github.com:gerbaudo/SusyNtuple.git SusyNtuple
+git clone git@github.com:gerbaudo/SusyCommon.git SusyCommon
+
+svn co svn+ssh://svn.cern.ch/reps/atlasphys/Physics/SUSY/Analyses/WeakProduction/MultiLep/tags/MultiLep-01-06-08    MultiLep
 
 sed -i -e '/asetup/s/^/#/' MultiLep/installscripts/install_script.sh # forget about asetup, we just need root
 localSetupROOT --rootVersion 5.34.18-x86_64-slc6-gcc4.7
