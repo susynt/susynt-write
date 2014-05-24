@@ -27,6 +27,7 @@ SUBM_DIR="subm"
 
 echo "Starting                          -- `date`"
 
+mkdir -p ${PROD_DIR}
 cd    ${PROD_DIR}
 
 git clone git@github.com:gerbaudo/SusyNtuple.git SusyNtuple
