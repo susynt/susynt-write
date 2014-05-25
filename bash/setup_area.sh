@@ -31,9 +31,9 @@ mkdir -p ${PROD_DIR}
 cd    ${PROD_DIR}
 
 git clone git@github.com:gerbaudo/SusyNtuple.git SusyNtuple
-cd SusyNtuple; git checkout SusyNtuple-00-01-10; cd -
+cd SusyNtuple; git checkout SusyNtuple-00-01-11; cd -
 git clone git@github.com:gerbaudo/SusyCommon.git SusyCommon
-cd SusyCommon; git checkout SusyCommon-00-01-05; cd -
+cd SusyCommon; git checkout SusyCommon-00-01-06; cd -
 
 svn co svn+ssh://svn.cern.ch/reps/atlasphys/Physics/SUSY/Analyses/WeakProduction/MultiLep/tags/MultiLep-01-06-08    MultiLep
 
