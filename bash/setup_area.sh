@@ -42,6 +42,9 @@ localSetupROOT --rootVersion 5.34.18-x86_64-slc6-gcc4.7
 
 source MultiLep/installscripts/install_script.sh
 
+echo "to fix SUSYTools-00-03-21 you need to" # tmp DG
+echo "sed -i  '/PACKAGE\_DEP/ s/$/ PhotonEfficiencyCorrection/' SUSYTools/cmt/Makefile.RootCore"
+
 echo "Done compiling                    -- `date`"
 
 cd ..
