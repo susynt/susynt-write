@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Script to setup the area for submission of the SusyNt jobs.
+# Script to setup an area where we compile the packages needed to run NtMaker
 #
 # Based on Steve's instructions.
 # Requirements:
@@ -12,18 +12,13 @@
 # - voms proxy
 #
 # Main steps:
-# - source this script with a tag, for example
+# - source this script
 #   > source setup_area.sh
-# - this will create two directories :
-#   - 'prod_n0135' (with all the packages)
-#   - 'subm_n0135' (to submit the jobs)
-# - check that everything compiled (if not, fix it and 'create_tarball.sh'), then submit the jobs:
-#   > ./submit.py mc  -t n0135 --met Default -f <a-sample-list.txt> --nickname <my-nickname>
-#
+# - this will create a directory `prod` with all the packages, and compile them
+# - try running NtMaker
 # davide.gerbaudo@gmail.com, Mar 2013
 
 PROD_DIR="prod"
-SUBM_DIR="subm"
 
 echo "Starting                          -- `date`"
 
@@ -48,23 +43,4 @@ echo "to fix SUSYTools-00-03-21 you need to" # tmp DG
 echo "sed -i  '/PACKAGE\_DEP/ s/$/ PhotonEfficiencyCorrection/' SUSYTools/cmt/Makefile.RootCore"
 
 echo "Done compiling                    -- `date`"
-
-cd ..
-
-# this part should be revised.  (DG 2014-05-07)
-
-# Is there any reason why the 'grid' stuff cannot go in a small
-# separate repo? In this way we can just always get the head (also,
-# this part does not contain code to be compiled, just submission
-# scripts and lists)
-
-# -- git clone git@github.com:gerbaudo/SusyCommon.git ${SUBM_DIR}
-# -- mv     ${SUBM_DIR}/SusyCommon/grid/* ${SUBM_DIR}/
-# -- rm -rf ${SUBM_DIR}/SusyCommon
-# -- cd    ${SUBM_DIR}
-# -- 
-# -- localSetupPandaClient
-# -- ./create_tarball.sh
-
-echo "Done, ready to submit jobs        -- `date`"
 
