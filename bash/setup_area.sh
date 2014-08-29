@@ -65,16 +65,12 @@ function checkout_packages {
 }
 
 function compile_packages {
-
-
     localSetupROOT --rootVersion 5.34.18-x86_64-slc6-gcc4.7
     # the option below is the one needed for submit.py (see output of localSetupROOT)
     # --rootVer=5.34/18 --cmtConfig=x86_64-slc6-gcc47-opt
     source RootCore/scripts/setup.sh
     rc find_packages
     rc compile
-
-
 }
 
 function main {
@@ -89,8 +85,6 @@ function main {
     # fi
     checkout_packages
     compile_packages
-    echo "to fix SUSYTools-00-03-21 you need to" # tmp DG
-    echo "sed -i  '/PACKAGE\_DEP/ s/$/ PhotonEfficiencyCorrection/' SUSYTools/cmt/Makefile.RootCore"
     echo "Done                              -- `date`"
 }
 
