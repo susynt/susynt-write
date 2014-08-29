@@ -45,7 +45,7 @@ function checkout_packages {
     local SVNPHYS="svn+ssh://svn.cern.ch/reps/atlasphys/"
     local SVNWEAK="svn+ssh://svn.cern.ch/reps/atlasphys/Physics/SUSY/Analyses/WeakProduction/"
 
-    svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-03-21   SUSYTools
+    svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-03-23   SUSYTools
     python SUSYTools/python/install.py
 
     svn co ${SVNWEAK}/MultiLep/tags/MultiLep-01-06-08                             MultiLep
