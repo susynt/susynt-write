@@ -45,9 +45,8 @@ function checkout_packages {
     local SVNPHYS="svn+ssh://svn.cern.ch/reps/atlasphys/"
     local SVNWEAK="svn+ssh://svn.cern.ch/reps/atlasphys/Physics/SUSY/Analyses/WeakProduction/"
 
-    svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-03-23   SUSYTools
-    # SUSYTools dependencies
     svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-05-00-06 SUSYTools
+    # SUSYTools dependencies
     svn co ${SVNOFF}/PhysicsAnalysis/MuonID/MuonIDAnalysis/MuonMomentumCorrections/tags/MuonMomentumCorrections-01-00-08 MuonMomentumCorrections
     svn co ${SVNOFF}/PhysicsAnalysis/AnalysisCommon/PileupReweighting/tags/PileupReweighting-00-02-12-01 PileupReweighting
     svn co ${SVNOFF}/PhysicsAnalysis/TauID/TauAnalysisTools/tags/TauAnalysisTools-00-00-07 TauAnalysisTools
