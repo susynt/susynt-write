@@ -46,9 +46,12 @@ function checkout_packages {
     local SVNWEAK="svn+ssh://svn.cern.ch/reps/atlasphys/Physics/SUSY/Analyses/WeakProduction/"
 
     svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-03-23   SUSYTools
-    python SUSYTools/python/install.py
-
-    svn co ${SVNWEAK}/MultiLep/tags/MultiLep-01-06-08                             MultiLep
+    # SUSYTools dependencies
+    svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-05-00-06 SUSYTools
+    svn co ${SVNOFF}/PhysicsAnalysis/MuonID/MuonIDAnalysis/MuonMomentumCorrections/tags/MuonMomentumCorrections-01-00-08 MuonMomentumCorrections
+    svn co ${SVNOFF}/PhysicsAnalysis/AnalysisCommon/PileupReweighting/tags/PileupReweighting-00-02-12-01 PileupReweighting
+    svn co ${SVNOFF}/PhysicsAnalysis/TauID/TauAnalysisTools/tags/TauAnalysisTools-00-00-07 TauAnalysisTools
+    # SusyNtuple dependencies
     svn co ${SVNWEAK}/Mt2/tags/Mt2-00-00-01                                       Mt2
     svn co ${SVNWEAK}/TopTag/tags/TopTag-00-00-01                                 TopTag
     svn co ${SVNWEAK}/TriggerMatch/tags/TriggerMatch-00-00-10                     TriggerMatch
@@ -58,18 +61,19 @@ function checkout_packages {
     svn co ${SVNWEAK}/LeptonTruthTools/tags/LeptonTruthTools-00-01-07             LeptonTruthTools
 
     git clone git@github.com:gerbaudo/SusyNtuple.git SusyNtuple
-    cd SusyNtuple; git checkout SusyNtuple-00-01-13; cd -
+    cd SusyNtuple; git checkout -b xaod origin/xaod; cd -
     git clone git@github.com:gerbaudo/SusyCommon.git SusyCommon
-    cd SusyCommon; git checkout SusyCommon-00-01-08; cd -
+    cd SusyCommon; git checkout -b xaod origin/xaod; cd -
     # todo : check that all packages are actually there
 }
 
 function compile_packages {
-    localSetupROOT --rootVersion 5.34.18-x86_64-slc6-gcc4.7
-    # the option below is the one needed for submit.py (see output of localSetupROOT)
-    # --rootVer=5.34/18 --cmtConfig=x86_64-slc6-gcc47-opt
-    source RootCore/scripts/setup.sh
+    setupATLAS
+    rcSetup Base,2.0.7
+    # for grid submissions commands, see
+    # see https://twiki.cern.ch/twiki/bin/viewauth/AtlasProtected/AnalysisRelease
     rc find_packages
+    rc clean
     rc compile
 }
 
