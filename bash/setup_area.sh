@@ -26,7 +26,7 @@ mkdir -p ${PROD_DIR}
 cd    ${PROD_DIR}
 
 git clone git@github.com:gerbaudo/SusyNtuple.git SusyNtuple
-cd SusyNtuple; git checkout SusyNtuple-00-01-11; cd -
+cd SusyNtuple; git checkout SusyNtuple-00-01-11-01; cd -
 git clone git@github.com:gerbaudo/SusyCommon.git SusyCommon
 cd SusyCommon; git checkout SusyCommon-00-01-06; cd -
 
