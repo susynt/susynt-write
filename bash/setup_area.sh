@@ -45,25 +45,18 @@ function checkout_packages {
     local SVNPHYS="svn+ssh://svn.cern.ch/reps/atlasphys/"
     local SVNWEAK="svn+ssh://svn.cern.ch/reps/atlasphys/Physics/SUSY/Analyses/WeakProduction/"
 
-    svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-05-00-06 SUSYTools
-    # SUSYTools dependencies
-    svn co ${SVNOFF}/PhysicsAnalysis/MuonID/MuonIDAnalysis/MuonMomentumCorrections/tags/MuonMomentumCorrections-01-00-08 MuonMomentumCorrections
-    svn co ${SVNOFF}/PhysicsAnalysis/AnalysisCommon/PileupReweighting/tags/PileupReweighting-00-02-12-01 PileupReweighting
-    svn co ${SVNOFF}/PhysicsAnalysis/TauID/TauAnalysisTools/tags/TauAnalysisTools-00-00-07 TauAnalysisTools
+    svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-05-00-07 SUSYTools
     # SusyNtuple dependencies
     svn co ${SVNWEAK}/Mt2/tags/Mt2-00-00-01                                       Mt2
-    svn co ${SVNWEAK}/TopTag/tags/TopTag-00-00-01                                 TopTag
     svn co ${SVNWEAK}/TriggerMatch/tags/TriggerMatch-00-00-10                     TriggerMatch
     svn co ${SVNWEAK}/DGTriggerReweight/tags/DGTriggerReweight-00-00-29           DGTriggerReweight
-    svn co ${SVNWEAK}/SignificanceCalculator/tags/SignificanceCalculator-00-00-02 SignificanceCalculator
-    svn co ${SVNWEAK}/HistFitterTree/tags/HistFitterTree-00-00-21                 HistFitterTree
     svn co ${SVNWEAK}/LeptonTruthTools/tags/LeptonTruthTools-00-01-07             LeptonTruthTools
 
     git clone git@github.com:gerbaudo/SusyNtuple.git SusyNtuple
     cd SusyNtuple; git checkout -b xaod origin/xaod; cd -
     git clone git@github.com:gerbaudo/SusyCommon.git SusyCommon
     cd SusyCommon; git checkout -b xaod origin/xaod; cd -
-    # todo : check that all packages are actually there
+    todo : check that all packages are actually there
 }
 
 function compile_packages {
