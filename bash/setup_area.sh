@@ -23,6 +23,9 @@ function get_d3pdreader() {
 }
 
 function checkout_susytools_codebase() {
+    # get RootCore first so we get the version we want (not the one from SUSYTools).
+    # the checkout from SUSYTools will cause be skipped with a 'already a working copy for a different URL' msg
+    svn co svn+ssh://svn.cern.ch/reps/atlasoff/PhysicsAnalysis/D3PDTools/RootCore/tags/RootCore-00-04-07 RootCore
     # checkout SUSYTools and all its dependencies
     svn co -r 600009 svn+ssh://svn.cern.ch/reps/atlasoff/PhysicsAnalysis/SUSYPhys/SUSYTools/trunk SUSYTools
     SUSYTools/python/install.py
