@@ -45,23 +45,24 @@ function checkout_packages {
     local SVNPHYS="svn+ssh://svn.cern.ch/reps/atlasphys/"
     local SVNWEAK="svn+ssh://svn.cern.ch/reps/atlasphys/Physics/SUSY/Analyses/WeakProduction/"
 
-    svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-05-00-09 SUSYTools
+    svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-05-00-13 SUSYTools
     # SusyNtuple dependencies
     svn co ${SVNWEAK}/Mt2/tags/Mt2-00-00-01                                       Mt2
     svn co ${SVNWEAK}/TriggerMatch/tags/TriggerMatch-00-00-10                     TriggerMatch
     svn co ${SVNWEAK}/DGTriggerReweight/tags/DGTriggerReweight-00-00-29           DGTriggerReweight
     svn co ${SVNWEAK}/LeptonTruthTools/tags/LeptonTruthTools-00-01-07             LeptonTruthTools
+    svn co ${SVNOFF}/Reconstruction/Jet/JetAnalysisTools/JVFUncertaintyTool/tags/JVFUncertaintyTool-00-00-04  JVFUncertaintyTool
 
     git clone git@github.com:gerbaudo/SusyNtuple.git SusyNtuple
     cd SusyNtuple; git checkout -b xaod origin/xaod; cd -
     git clone git@github.com:gerbaudo/SusyCommon.git SusyCommon
     cd SusyCommon; git checkout -b xaod origin/xaod; cd -
-    todo : check that all packages are actually there
+    #todo : check that all packages are actually there
 }
 
 function compile_packages {
     setupATLAS
-    rcSetup Base,2.0.10
+    rcSetup Base,2.0.14
     # for grid submissions commands, see
     # see https://twiki.cern.ch/twiki/bin/viewauth/AtlasProtected/AnalysisRelease
     rc find_packages
