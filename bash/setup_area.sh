@@ -58,6 +58,11 @@ function checkout_packages {
     git clone git@github.com:gerbaudo/SusyCommon.git SusyCommon
     cd SusyCommon; git checkout -b xaod origin/xaod; cd -
     #todo : check that all packages are actually there
+
+    cp ../bash/sourceme.sh prod/
+    mkdir -p susynt_xaod_timing
+
+
 }
 
 function compile_packages {
@@ -81,7 +86,8 @@ function main {
     #     echo "checkout and compile"
     # fi
     checkout_packages
-    compile_packages
+    #AT: not working ! use sourceme.sh instead
+    #compile_packages
     echo "Done                              -- `date`"
 }
 

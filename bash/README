@@ -1,0 +1,16 @@
+Follow these instructions to install from fresh:
+
+
+git clone git@github.com:gerbaudo/susynt-write.git
+cd susynt-write
+git checkout -b xaod origin/xaod
+bash/setup_area.sh 2>&1 | tee install.log
+
+Then
+cd prod
+
+//Do this each time you setup a new terminal.
+source sourceme.sh
+
+cd SusyCommon/run
+./test_and_log.sh
