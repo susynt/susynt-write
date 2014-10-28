@@ -41,6 +41,10 @@ function checkout_packages {
     mkdir -p ${PROD_DIR}
     cd       ${PROD_DIR}
 
+    cp ../bash/sourceme.sh ${PROD_DIR}/
+    mkdir -p ${PROD_DIR}/susynt_xaod_timing
+
+
     local SVNOFF="svn+ssh://svn.cern.ch/reps/atlasoff/"
     local SVNPHYS="svn+ssh://svn.cern.ch/reps/atlasphys/"
     local SVNWEAK="svn+ssh://svn.cern.ch/reps/atlasphys/Physics/SUSY/Analyses/WeakProduction/"
@@ -58,11 +62,6 @@ function checkout_packages {
     git clone git@github.com:gerbaudo/SusyCommon.git SusyCommon
     cd SusyCommon; git checkout -b xaod origin/xaod; cd -
     #todo : check that all packages are actually there
-
-    cd ${PROD_DIR}/.. 
-    cp bash/sourceme.sh ${PROD_DIR}
-    mkdir -p susynt_xaod_timing
-
 
 }
 
