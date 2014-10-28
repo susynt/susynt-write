@@ -59,7 +59,8 @@ function checkout_packages {
     cd SusyCommon; git checkout -b xaod origin/xaod; cd -
     #todo : check that all packages are actually there
 
-    cp ../bash/sourceme.sh prod/
+    cd ${PROD_DIR}/.. 
+    cp bash/sourceme.sh ${PROD_DIR}
     mkdir -p susynt_xaod_timing
 
 
