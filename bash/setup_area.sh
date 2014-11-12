@@ -58,9 +58,9 @@ function checkout_packages {
     svn co ${SVNWEAK}/LeptonTruthTools/tags/LeptonTruthTools-00-01-07             LeptonTruthTools
 
     git clone git@github.com:gerbaudo/SusyNtuple.git SusyNtuple
-    cd SusyNtuple; git checkout SusyNtuple-00-01-14; cd -
+    cd SusyNtuple; git checkout SusyNtuple-00-01-15; cd -
     git clone git@github.com:gerbaudo/SusyCommon.git SusyCommon
-    cd SusyCommon; git checkout SusyCommon-00-01-09; cd -
+    cd SusyCommon; git checkout SusyCommon-00-01-10; cd -
     # todo : check that all packages are actually there
 }
 
