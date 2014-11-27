@@ -62,7 +62,7 @@ function checkout_packages {
     git clone git@github.com:gerbaudo/SusyNtuple.git SusyNtuple
     cd SusyNtuple; git checkout -b xaod origin/xaod; cd -
     git clone git@github.com:gerbaudo/SusyCommon.git SusyCommon
-    cd SusyCommon; git checkout -b xaod origin/xaod; cd -
+    cd SusyCommon; git checkout -b xaod-or-betatest origin/xaod-or-betatest; cd -
     #todo : check that all packages are actually there
 
 }
