@@ -57,6 +57,7 @@ function checkout_packages {
     svn co ${SVNWEAK}/DGTriggerReweight/tags/DGTriggerReweight-00-00-29           DGTriggerReweight
     svn co ${SVNWEAK}/LeptonTruthTools/tags/LeptonTruthTools-00-01-07             LeptonTruthTools
     svn co ${SVNOFF}/Reconstruction/Jet/JetAnalysisTools/JVFUncertaintyTool/tags/JVFUncertaintyTool-00-00-04  JVFUncertaintyTool
+    svn co ${SVNOFF}/PhysicsAnalysis/AnalysisCommon/AssociationUtils/tags/AssociationUtils-01-00-01 AssociationUtils
 
     git clone git@github.com:gerbaudo/SusyNtuple.git SusyNtuple
     cd SusyNtuple; git checkout -b xaod origin/xaod; cd -
