@@ -68,7 +68,7 @@ function checkout_packages {
 
 function compile_packages {
     setupATLAS
-    rcSetup Base,2.0.19
+    rcSetup Base,2.0.18
     # for grid submissions commands, see
     # see https://twiki.cern.ch/twiki/bin/viewauth/AtlasProtected/AnalysisRelease
     rc find_packages
