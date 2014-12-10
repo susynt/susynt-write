@@ -11,7 +11,7 @@ export ATLAS_LOCAL_ROOT_BASE="/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase"
 source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh
 
 setupATLAS
-rcSetup Base,2.0.18
+rcSetup Base,2.0.19
 rc find_packages
 rc clean
 rc compile
