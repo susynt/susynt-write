@@ -11,7 +11,7 @@ Prerequisites:
 Follow these commands to set up an area to read SusyNtuples.
 
 ```
-git clone git@github.com:gerbaudo/susynt-write.git
+git clone git@github.com:gerbaudo/susynt-write.git --branch xaod
 cd susynt-write
 bash/setup_area.sh 2>&1 | tee install.log
 ```
