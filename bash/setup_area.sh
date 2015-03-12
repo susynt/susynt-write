@@ -52,15 +52,23 @@ function checkout_packages {
     #svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-05-00-14 SUSYTools
     #svn co ${SVNOFF}/PhysicsAnalysis/TauID/TauAnalysisTools/tags/TauAnalysisTools-00-00-13 TauAnalysisTools
 
-    # base 2.0.22
-    svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-05-00-16 SUSYTools
-    svn co ${SVNOFF}/Event/xAOD/xAODMissingET/tags/xAODMissingET-00-01-13 xAODMissingET
-    svn co ${SVNOFF}/Reconstruction/MET/METInterface/tags/METInterface-00-01-02 METInterface
-    svn co ${SVNOFF}/Reconstruction/MET/METUtilities/tags/METUtilities-00-01-11-01 METUtilities
-    svn co ${SVNOFF}/Reconstruction/Jet/JetCalibTools/tags/JetCalibTools-00-04-20 JetCalibTools
-    svn co ${SVNOFF}/PhysicsAnalysis/ElectronPhotonID/ElectronEfficiencyCorrection/tags/ElectronEfficiencyCorrection-00-01-13 ElectronEfficiencyCorrection
-    svn co ${SVNOFF}/InnerDetector/InDetRecTools/InDetTrackSelectionTool/tags/InDetTrackSelectionTool-00-01-10 InDetTrackSelectionTool
-    svn co ${SVNOFF}/Reconstruction/EventShapes/EventShapeTools/tags/EventShapeTools-00-01-03 EventShapeTools # (needs patching)
+    # base 2.0.27
+    svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-05-00-21 SUSYTools
+    # svn co ${SVNOFF}/Event/xAOD/xAODCore/tags/xAODCore-00-00-87-01 xAODCore
+    # svn co ${SVNOFF}/Event/xAOD/xAODMissingET/tags/xAODMissingET-00-01-13 xAODMissingET
+    # svn co ${SVNOFF}/Reconstruction/MET/METInterface/tags/METInterface-00-01-02 METInterface
+    # svn co ${SVNOFF}/Reconstruction/MET/METUtilities/tags/METUtilities-00-01-11-01 METUtilities
+    # svn co ${SVNOFF}/Reconstruction/Jet/JetCalibTools/tags/JetCalibTools-00-04-20 JetCalibTools
+    # svn co ${SVNOFF}/PhysicsAnalysis/ElectronPhotonID/ElectronEfficiencyCorrection/tags/ElectronEfficiencyCorrection-00-01-13 ElectronEfficiencyCorrection
+    # svn co ${SVNOFF}/InnerDetector/InDetRecTools/InDetTrackSelectionTool/tags/InDetTrackSelectionTool-00-01-10 InDetTrackSelectionTool
+    # svn co ${SVNOFF}/Reconstruction/EventShapes/EventShapeTools/tags/EventShapeTools-00-01-09 EventShapeTools
+
+    # Additional packages needed on top of Base,2.1.27 (will not be needed for a future AnalysisBase/AnalysisSUSY release)
+    svn co ${SVNOFF}/Reconstruction/EventShapes/EventShapeTools/tags/EventShapeTools-00-01-09 EventShapeTools
+    svn co ${SVNOFF}/Reconstruction/EventShapes/EventShapeInterface/tags/EventShapeInterface-00-00-09 EventShapeInterface
+    svn co ${SVNOFF}/PhysicsAnalysis/ElectronPhotonID/ElectronEfficiencyCorrection/tags/ElectronEfficiencyCorrection-00-01-19 ElectronEfficiencyCorrection
+    svn co ${SVNOFF}/Reconstruction/Jet/JetCalibTools/tags/JetCalibTools-00-04-29 JetCalibTools
+    svn co ${SVNOFF}/Event/xAOD/xAODCore/tags/xAODCore-00-00-87-01 xAODCore
 
     # SusyNtuple dependencies
     svn co ${SVNWEAK}/Mt2/tags/Mt2-00-00-01                                       Mt2
@@ -79,7 +87,7 @@ function checkout_packages {
 
 function compile_packages {
     setupATLAS
-    rcSetup Base,2.0.22
+    rcSetup Base,2.1.27
     # for grid submissions commands, see
     # see https://twiki.cern.ch/twiki/bin/viewauth/AtlasProtected/AnalysisRelease
     rc find_packages
@@ -100,7 +108,6 @@ function main {
     checkout_packages
     #AT: not working ! use sourceme.sh instead
     #compile_packages
-    echo "For Base,2.0.22, apply to EventShapeTools the patches suggested in SUSYTools/README"
     echo "Done                              -- `date`"
 }
 
