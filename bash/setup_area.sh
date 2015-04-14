@@ -52,8 +52,8 @@ function checkout_packages {
     #svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-05-00-14 SUSYTools
     #svn co ${SVNOFF}/PhysicsAnalysis/TauID/TauAnalysisTools/tags/TauAnalysisTools-00-00-13 TauAnalysisTools
 
-    # base 2.0.27
-    svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-05-00-21 SUSYTools
+    # base 2.1.28
+    svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-05-00-23 SUSYTools
     # svn co ${SVNOFF}/Event/xAOD/xAODCore/tags/xAODCore-00-00-87-01 xAODCore
     # svn co ${SVNOFF}/Event/xAOD/xAODMissingET/tags/xAODMissingET-00-01-13 xAODMissingET
     # svn co ${SVNOFF}/Reconstruction/MET/METInterface/tags/METInterface-00-01-02 METInterface
@@ -87,7 +87,7 @@ function checkout_packages {
 
 function compile_packages {
     setupATLAS
-    rcSetup Base,2.1.27
+    rcSetup Base,2.1.28
     # for grid submissions commands, see
     # see https://twiki.cern.ch/twiki/bin/viewauth/AtlasProtected/AnalysisRelease
     rc find_packages
