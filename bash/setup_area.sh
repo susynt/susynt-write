@@ -78,9 +78,15 @@ function checkout_packages {
     svn co ${SVNOFF}/Reconstruction/Jet/JetAnalysisTools/JVFUncertaintyTool/tags/JVFUncertaintyTool-00-00-04  JVFUncertaintyTool
 
     git clone git@github.com:gerbaudo/SusyNtuple.git SusyNtuple
-    cd SusyNtuple; git checkout -b xaod origin/xaod; cd -
+    cd SusyNtuple
+    # git checkout -b xaod origin/xaod
+    git checkout SusyNtuple-00-02-01
+    cd -
     git clone git@github.com:gerbaudo/SusyCommon.git SusyCommon
-    cd SusyCommon; git checkout -b xaod origin/xaod; cd -
+    cd SusyCommon
+    # git checkout -b xaod origin/xaod
+    git checkout SusyCommon-00-02-01
+    cd -
     #todo : check that all packages are actually there
 
 }
