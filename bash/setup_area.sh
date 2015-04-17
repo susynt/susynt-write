@@ -54,16 +54,8 @@ function checkout_packages {
 
     # base 2.1.28
     svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-05-00-25 SUSYTools
-    # svn co ${SVNOFF}/Event/xAOD/xAODCore/tags/xAODCore-00-00-87-01 xAODCore
-    # svn co ${SVNOFF}/Event/xAOD/xAODMissingET/tags/xAODMissingET-00-01-13 xAODMissingET
-    # svn co ${SVNOFF}/Reconstruction/MET/METInterface/tags/METInterface-00-01-02 METInterface
-    # svn co ${SVNOFF}/Reconstruction/MET/METUtilities/tags/METUtilities-00-01-11-01 METUtilities
-    # svn co ${SVNOFF}/Reconstruction/Jet/JetCalibTools/tags/JetCalibTools-00-04-20 JetCalibTools
-    # svn co ${SVNOFF}/PhysicsAnalysis/ElectronPhotonID/ElectronEfficiencyCorrection/tags/ElectronEfficiencyCorrection-00-01-13 ElectronEfficiencyCorrection
-    # svn co ${SVNOFF}/InnerDetector/InDetRecTools/InDetTrackSelectionTool/tags/InDetTrackSelectionTool-00-01-10 InDetTrackSelectionTool
-    # svn co ${SVNOFF}/Reconstruction/EventShapes/EventShapeTools/tags/EventShapeTools-00-01-09 EventShapeTools
 
-    # Additional packages needed on top of Base,2.1.27 (will not be needed for a future AnalysisBase/AnalysisSUSY release)
+    # Additional packages needed on top of Base,2.1.28 (will not be needed for a future AnalysisBase/AnalysisSUSY release)
     svn co ${SVNOFF}/Reconstruction/EventShapes/EventShapeTools/tags/EventShapeTools-00-01-09 EventShapeTools
     svn co ${SVNOFF}/Reconstruction/EventShapes/EventShapeInterface/tags/EventShapeInterface-00-00-09 EventShapeInterface
     svn co ${SVNOFF}/PhysicsAnalysis/ElectronPhotonID/ElectronEfficiencyCorrection/tags/ElectronEfficiencyCorrection-00-01-19 ElectronEfficiencyCorrection
@@ -79,13 +71,13 @@ function checkout_packages {
 
     git clone git@github.com:gerbaudo/SusyNtuple.git SusyNtuple
     cd SusyNtuple
-    git checkout -b xaod origin/xaod
-    # git checkout SusyNtuple-00-02-01
+    # git checkout -b xaod origin/xaod
+    git checkout SusyNtuple-00-02-02
     cd -
     git clone git@github.com:gerbaudo/SusyCommon.git SusyCommon
     cd SusyCommon
-    git checkout -b xaod origin/xaod
-    # git checkout SusyCommon-00-02-01
+    # git checkout -b xaod origin/xaod
+    git checkout SusyCommon-00-02-02
     cd -
     #todo : check that all packages are actually there
 
