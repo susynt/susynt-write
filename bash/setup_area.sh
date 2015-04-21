@@ -4,16 +4,9 @@
 #
 # Requirements:
 # - access to the svn.cern.ch repositories
-# - have 'localSetupRoot' defined.
-#   This depends on your specifi setup; on gpatlas* these commands are defined with
-#   > export ATLAS_LOCAL_ROOT_BASE =/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase
-#   > source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh
+# - have 'setupATLAS' defined
+# - have access to github
 #
-# Main steps:
-# - source this script
-#   > source setup_area.sh
-# - this will create a directory `prod` with all the packages, and compile them
-# - try running NtMaker
 # davide.gerbaudo@gmail.com, Mar 2013
 
 
@@ -21,6 +14,14 @@ readonly SCRIPT_NAME=$(basename $0)
 # see http://stackoverflow.com/questions/59895/can-a-bash-script-tell-what-directory-its-stored-in
 readonly PROG_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 readonly PROD_DIR="${PROG_DIR}/../" # 'production' dir, where we checkout all of the packages
+
+function print_usage {
+    echo "Usage:"
+    echo "setup_area.sh [--stable] [--help]"
+    echo " --stable: checkout the latest stable packages, for production"
+    echo "           (by default checkout the development branch)"
+    echo " --help:   print this message"
+}
 
 function require_root {
     : ${ROOTSYS:?"Need to set up root."}
@@ -37,16 +38,18 @@ function missing_kerberos {
     fi
 }
 
-function checkout_packages {
+function prepare_directories {
     cd ${PROD_DIR}
-
     cp ${PROG_DIR}/sourceme.sh ${PROD_DIR}/
     mkdir -p ${PROD_DIR}/susynt_xaod_timing
+}
 
-
+function checkout_packages_external {
     local SVNOFF="svn+ssh://svn.cern.ch/reps/atlasoff/"
     local SVNPHYS="svn+ssh://svn.cern.ch/reps/atlasphys/"
     local SVNWEAK="svn+ssh://svn.cern.ch/reps/atlasphys/Physics/SUSY/Analyses/WeakProduction/"
+
+    cd ${PROD_DIR}
 
     # base 2.0.18
     #svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-05-00-14 SUSYTools
@@ -77,18 +80,30 @@ function checkout_packages {
     svn co ${SVNWEAK}/LeptonTruthTools/tags/LeptonTruthTools-00-01-07             LeptonTruthTools
     svn co ${SVNOFF}/Reconstruction/Jet/JetAnalysisTools/JVFUncertaintyTool/tags/JVFUncertaintyTool-00-00-04  JVFUncertaintyTool
 
+    #todo : check that all packages are actually there
+}
+
+function checkout_packages_uci {
+    local dev_or_stable="$1" # whether we should checkout the dev branch or the latest production tags
+    cd ${PROD_DIR}
     git clone git@github.com:gerbaudo/SusyNtuple.git SusyNtuple
     cd SusyNtuple
-    git checkout -b xaod origin/xaod
-    # git checkout SusyNtuple-00-02-01
+    if [ "${dev_or_stable}" = "--stable" ]
+    then
+        git checkout SusyNtuple-00-02-01
+    else
+        git checkout -b xaod origin/xaod
+    fi
     cd -
     git clone git@github.com:gerbaudo/SusyCommon.git SusyCommon
     cd SusyCommon
-    git checkout -b xaod origin/xaod
-    # git checkout SusyCommon-00-02-01
+    if [ "${dev_or_stable}" = "--stable" ]
+    then
+        git checkout SusyCommon-00-02-01
+    else
+        git checkout -b xaod origin/xaod
+    fi
     cd -
-    #todo : check that all packages are actually there
-
 }
 
 function compile_packages {
@@ -102,6 +117,13 @@ function compile_packages {
 }
 
 function main {
+    if [ $# -ge 2 ]; then
+        print_usage
+        return
+    elif [ $# -eq 1 ] && [ "$1" == "--help" ]; then
+        print_usage
+        return
+    fi
     echo "Starting                          -- `date`"
     # todo: sanity/env checks (probably better off in python)
     # if missing_kerberos
@@ -111,10 +133,12 @@ function main {
     # else
     #     echo "checkout and compile"
     # fi
-    checkout_packages
+    prepare_directories
+    checkout_packages_external
+    checkout_packages_uci $*
     #AT: not working ! use sourceme.sh instead
     #compile_packages
     echo "Done                              -- `date`"
 }
 
-main
+main $*
