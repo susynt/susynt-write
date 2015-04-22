@@ -40,7 +40,6 @@ function missing_kerberos {
 
 function prepare_directories {
     cd ${PROD_DIR}
-    cp ${PROG_DIR}/sourceme.sh ${PROD_DIR}/
     mkdir -p ${PROD_DIR}/susynt_xaod_timing
 }
 
@@ -98,16 +97,6 @@ function checkout_packages_uci {
     cd -
 }
 
-function compile_packages {
-    setupATLAS
-    rcSetup Base,2.1.28
-    # for grid submissions commands, see
-    # see https://twiki.cern.ch/twiki/bin/viewauth/AtlasProtected/AnalysisRelease
-    rc find_packages
-    rc clean
-    rc compile
-}
-
 function main {
     if [ $# -ge 2 ]; then
         print_usage
@@ -128,9 +117,10 @@ function main {
     prepare_directories
     checkout_packages_external
     checkout_packages_uci $*
-    #AT: not working ! use sourceme.sh instead
-    #compile_packages
     echo "Done                              -- `date`"
+    echo "You can now go ahead and compile with:"
+    echo "rc find_packages"
+    echo "rc compile 2>&1 | tee compile.log"
 }
 
 main $*
