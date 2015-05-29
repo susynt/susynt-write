@@ -50,20 +50,21 @@ function checkout_packages_external {
 
     cd ${PROD_DIR}
 
-    # base 2.0.18
-    #svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-05-00-14 SUSYTools
-    #svn co ${SVNOFF}/PhysicsAnalysis/TauID/TauAnalysisTools/tags/TauAnalysisTools-00-00-13 TauAnalysisTools
+    # base 2.3.12
+    svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-06-07 SUSYTools
+    
+    # Additional packages needed on top of Base,2.3.X (will not be needed for a future AnalysisBase/AnalysisSUSY release)
+    svn co ${SVNOFF}/PhysicsAnalysis/ElectronPhotonID/ElectronEfficiencyCorrection/tags/ElectronEfficiencyCorrection-00-01-19
+    svn co ${SVNOFF}/PhysicsAnalysis/ElectronPhotonID/PhotonEfficiencyCorrection/tags/PhotonEfficiencyCorrection-00-01-05
+    svn co ${SVNOFF}/Event/xAOD/xAODMissingET/tags/xAODMissingET-00-01-23 
 
-    # base 2.1.30
-    svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-05-00-29 SUSYTools
-
-    # Additional packages needed on top of Base,2.1.30 (will not be needed for a future AnalysisBase/AnalysisSUSY release)
-    svn co ${SVNOFF}/Reconstruction/EventShapes/EventShapeTools/tags/EventShapeTools-00-01-09 EventShapeTools
-    svn co ${SVNOFF}/Reconstruction/EventShapes/EventShapeInterface/tags/EventShapeInterface-00-00-09 EventShapeInterface
-    svn co ${SVNOFF}/PhysicsAnalysis/ElectronPhotonID/ElectronEfficiencyCorrection/tags/ElectronEfficiencyCorrection-00-01-19 ElectronEfficiencyCorrection
-    svn co ${SVNOFF}/PhysicsAnalysis/ElectronPhotonID/ElectronPhotonSelectorTools/tags/ElectronPhotonSelectorTools-00-01-37-21 ElectronPhotonSelectorTools
-    svn co ${SVNOFF}/Reconstruction/Jet/JetCalibTools/tags/JetCalibTools-00-04-34 JetCalibTools
-    svn co ${SVNOFF}/Reconstruction/Jet/JetUncertainties/tags/JetUncertainties-00-09-19 JetUncertainties
+ #   # Additional packages needed on top of Base,2.1.30 (will not be needed for a future AnalysisBase/AnalysisSUSY release)
+ #   svn co ${SVNOFF}/Reconstruction/EventShapes/EventShapeTools/tags/EventShapeTools-00-01-09 EventShapeTools
+ #   svn co ${SVNOFF}/Reconstruction/EventShapes/EventShapeInterface/tags/EventShapeInterface-00-00-09 EventShapeInterface
+ #   svn co ${SVNOFF}/PhysicsAnalysis/ElectronPhotonID/ElectronEfficiencyCorrection/tags/ElectronEfficiencyCorrection-00-01-19 ElectronEfficiencyCorrection
+ #   svn co ${SVNOFF}/PhysicsAnalysis/ElectronPhotonID/ElectronPhotonSelectorTools/tags/ElectronPhotonSelectorTools-00-01-37-21 ElectronPhotonSelectorTools
+ #   svn co ${SVNOFF}/Reconstruction/Jet/JetCalibTools/tags/JetCalibTools-00-04-34 JetCalibTools
+ #   svn co ${SVNOFF}/Reconstruction/Jet/JetUncertainties/tags/JetUncertainties-00-09-19 JetUncertainties
 
     # SusyNtuple dependencies
     svn co ${SVNWEAK}/Mt2/tags/Mt2-00-00-01                                       Mt2
@@ -86,15 +87,17 @@ function checkout_packages_uci {
     else
         git checkout -b xaod origin/xaod
     fi
+
     cd -
     git clone git@github.com:gerbaudo/SusyCommon.git SusyCommon
     cd SusyCommon
-    if [ "${dev_or_stable}" = "--stable" ]
-    then
-        git checkout SusyCommon-00-02-02
-    else
-        git checkout -b xaod origin/xaod
-    fi
+    git checkout -b mc15/origin/mc15
+   # if [ "${dev_or_stable}" = "--stable" ]
+   # then
+   #     git checkout SusyCommon-00-02-02
+   # else
+   #     git checkout -b xaod origin/xaod
+   # fi
     cd -
 }
 
