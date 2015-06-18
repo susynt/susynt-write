@@ -50,15 +50,13 @@ function checkout_packages_external {
 
     cd ${PROD_DIR}
 
-    # base 2.3.12
-    svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-06-07 SUSYTools
+    # base 2.3.14
+    svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-06-10 SUSYTools
     
-    # Additional packages needed on top of Base,2.3.X (will not be needed for a future AnalysisBase/AnalysisSUSY release)
-    svn co ${SVNOFF}/PhysicsAnalysis/ElectronPhotonID/ElectronEfficiencyCorrection/tags/ElectronEfficiencyCorrection-00-01-19 ElectronEfficiencyCorrection
-    svn co ${SVNOFF}/PhysicsAnalysis/ElectronPhotonID/PhotonEfficiencyCorrection/tags/PhotonEfficiencyCorrection-00-01-05 PhotonEfficiencyCorrection
-    svn co ${SVNOFF}/Event/xAOD/xAODMissingET/tags/xAODMissingET-00-01-23 xAODMissingET
-    
-    # TrigEgammaMatchingTool -- taking it early, from base 2.3.14 release
+    # Additional packages needed on top of Base,2.3.14 (will not be needed for a future AnalysisBase/AnalysisSUSY release
+    svn co ${SVNOFF}/Reconstruction/MET/METUtilities/tags/METUtilities-00-01-40 METUtilities
+
+    # TrigEgammaMatchingTool
     svn co ${SVNOFF}/Trigger/TrigAnalysis/TrigEgammaMatchingTool/tags/TrigEgammaMatchingTool-00-00-03 TrigEgammaMatchingTool
 
     # SusyNtuple dependencies
