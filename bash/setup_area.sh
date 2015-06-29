@@ -74,7 +74,7 @@ function checkout_packages_uci {
     cd ${PROD_DIR}
     git clone git@github.com:gerbaudo/SusyNtuple.git SusyNtuple
     cd SusyNtuple
-    git checkout -b mc15 origin/mc15
+    git checkout SusyNtuple-00-02-04
    # if [ "${dev_or_stable}" = "--stable" ]
    # then
    #     git checkout SusyNtuple-00-02-02
@@ -84,7 +84,7 @@ function checkout_packages_uci {
     cd -
     git clone git@github.com:gerbaudo/SusyCommon.git SusyCommon
     cd SusyCommon
-    git checkout -b mc15 origin/mc15
+    git checkout SusyCommon-00-02-04
    # if [ "${dev_or_stable}" = "--stable" ]
    # then
    #     git checkout SusyCommon-00-02-02
