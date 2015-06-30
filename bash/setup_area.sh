@@ -84,7 +84,7 @@ function checkout_packages_uci {
     cd -
     git clone git@github.com:gerbaudo/SusyCommon.git SusyCommon
     cd SusyCommon
-    git checkout SusyCommon-00-02-04
+    git checkout SusyCommon-00-02-05
    # if [ "${dev_or_stable}" = "--stable" ]
    # then
    #     git checkout SusyCommon-00-02-02
