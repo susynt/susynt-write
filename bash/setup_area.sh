@@ -59,6 +59,9 @@ function checkout_packages_external {
     # TrigEgammaMatchingTool
     svn co ${SVNOFF}/Trigger/TrigAnalysis/TrigEgammaMatchingTool/tags/TrigEgammaMatchingTool-00-00-03 TrigEgammaMatchingTool
 
+    # PileupReweighthing
+    svn co ${SVNOFF}/PhysicsAnalysis/AnalysisCommon/PileupReweighting/tags/PileupReweighting-00-03-03 PileupReweighting
+
     # SusyNtuple dependencies
     svn co ${SVNWEAK}/Mt2/tags/Mt2-00-00-01                                       Mt2
     svn co ${SVNWEAK}/TriggerMatch/tags/TriggerMatch-00-00-10                     TriggerMatch
@@ -74,7 +77,7 @@ function checkout_packages_uci {
     cd ${PROD_DIR}
     git clone git@github.com:gerbaudo/SusyNtuple.git SusyNtuple
     cd SusyNtuple
-    git checkout SusyNtuple-00-02-04
+    git checkout SusyNtuple-00-02-05
    # if [ "${dev_or_stable}" = "--stable" ]
    # then
    #     git checkout SusyNtuple-00-02-02
