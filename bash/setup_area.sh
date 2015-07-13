@@ -50,14 +50,15 @@ function checkout_packages_external {
 
     cd ${PROD_DIR}
 
-    # base 2.3.14
-    svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-06-10 SUSYTools
+    # base 2.3.18
+    svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-06-15 SUSYTools
     
     # Additional packages needed on top of Base,2.3.14 (will not be needed for a future AnalysisBase/AnalysisSUSY release
-    svn co ${SVNOFF}/Reconstruction/MET/METUtilities/tags/METUtilities-00-01-40 METUtilities
+    #svn co ${SVNOFF}/Reconstruction/MET/METUtilities/tags/METUtilities-00-01-40 METUtilities
 
-    # TrigEgammaMatchingTool
-    svn co ${SVNOFF}/Trigger/TrigAnalysis/TrigEgammaMatchingTool/tags/TrigEgammaMatchingTool-00-00-03 TrigEgammaMatchingTool
+    # TrigEgammaMatchingTool (note: this tool should not be used in standalone rootcore, we simply
+    # check it out for completeness w.r.t. the SUSYTools package lists
+    svn co ${SVNOFF}/Trigger/TrigAnalysis/TrigEgammaMatchingTool/tags/TrigEgammaMatchingTool-00-00-05 TrigEgammaMatchingTool
 
     # SusyNtuple dependencies
     svn co ${SVNWEAK}/Mt2/tags/Mt2-00-00-01                                       Mt2
@@ -74,23 +75,21 @@ function checkout_packages_uci {
     cd ${PROD_DIR}
     git clone git@github.com:gerbaudo/SusyNtuple.git SusyNtuple
     cd SusyNtuple
-    git checkout SusyNtuple-00-02-04
-   # if [ "${dev_or_stable}" = "--stable" ]
-   # then
-   #     git checkout SusyNtuple-00-02-02
-   # else
-   #     git checkout -b mc15 origin/mc15
-   # fi
+    if [ "${dev_or_stable}" = "--stable" ]
+    then
+        git checkout SusyNtuple-00-02-06
+    else
+        git checkout -b mc15 origin/mc15
+    fi
     cd -
     git clone git@github.com:gerbaudo/SusyCommon.git SusyCommon
     cd SusyCommon
-    git checkout SusyCommon-00-02-04
-   # if [ "${dev_or_stable}" = "--stable" ]
-   # then
-   #     git checkout SusyCommon-00-02-02
-   # else
-   #     git checkout -b xaod origin/xaod
-   # fi
+    if [ "${dev_or_stable}" = "--stable" ]
+    then
+        git checkout SusyCommon-00-02-06
+    else
+        git checkout -b mc15 origin/mc15
+    fi
     cd -
 }
 
