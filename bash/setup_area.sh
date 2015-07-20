@@ -58,7 +58,7 @@ function checkout_packages_external {
     svn co ${SVNOFF}/Reconstruction/Jet/JetUncertainties/tags/JetUncertainties-00-09-29 JetUncertainties
 #    svn co ${SVNOFF}/PhysicsAnalysis/JetTagging/JetTagPerformanceCalibration/CDIFiles/tags/CDIFiles-00-00-04 CDIFiles
     svn co ${SVNOFF}/Event/xAOD/xAODMissingET/tags/xAODMissingET-00-01-25 xAODMissingET
-    svo co ${SVNOFF}/Reconstruction/MET/METInterface/tags/METInterface-00-01-12 METInterface
+    svn co ${SVNOFF}/Reconstruction/MET/METInterface/tags/METInterface-00-01-12 METInterface
     svn co ${SVNOFF}/Reconstruction/MET/METUtilities/tags/METUtilities-00-01-45 METUtilities
 
     # TrigEgammaMatchingTool (note: this tool should not be used in standalone rootcore, we simply
@@ -122,6 +122,21 @@ function main {
     echo "You can now go ahead and compile with:"
     echo "rc find_packages"
     echo "rc compile 2>&1 | tee compile.log"
+
+    echo ""
+    tput setaf 2
+    echo 'Note: you must point the bTag SF tool in SUSYTools to to the CDIFiles
+located in SusyCommon/data/. To do this add Ln587 below and edit the "ScaleFactorFileName"
+property line (Ln588 below) in SUSYTools/Root/SUSYToolsInit.cxx:
+
+ 586       ATH_CHECK( btagTool->setProperty("JetAuthor",      jetdef ) );
+ 587       std::string tmparea=getenv("ROOTCOREBIN");
+ 588       ATH_CHECK( btagTool->setProperty("ScaleFactorFileName", tmparea + "/data/SusyCommon/CDIFiles/13TeV/2015-PreRecomm-13TeV-MC12-CDI_July15-v1.root") );
+ 589       ATH_CHECK( btagTool->setProperty("SystematicsStrategy","Envelope") ); '
+    tput setaf 1
+    echo "Do this before running bash/setup_release.sh (otherwise SUSYTools will not compile)"
+    tput sgr0
+    
 }
 
 main $*
