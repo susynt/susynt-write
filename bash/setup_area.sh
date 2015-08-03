@@ -51,15 +51,11 @@ function checkout_packages_external {
     cd ${PROD_DIR}
 
     # base 2.3.18
-    svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-06-16 SUSYTools
-    
-    # Additional packages needed on top of Base,2.3.14 (will not be needed for a future AnalysisBase/AnalysisSUSY release
-    #svn co ${SVNOFF}/Reconstruction/MET/METUtilities/tags/METUtilities-00-01-40 METUtilities
-    svn co ${SVNOFF}/Reconstruction/Jet/JetUncertainties/tags/JetUncertainties-00-09-29 JetUncertainties
-#    svn co ${SVNOFF}/PhysicsAnalysis/JetTagging/JetTagPerformanceCalibration/CDIFiles/tags/CDIFiles-00-00-04 CDIFiles
+    svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-06-17-03 SUSYTools
+    # Additional packages needed on top of Base,2.3.21 & SUSYTools-00-06-17-03
+    svn co ${SVNOFF}/Reconstruction/MET/METUtilities/tags/METUtilities-00-01-45 METUtilities
     svn co ${SVNOFF}/Event/xAOD/xAODMissingET/tags/xAODMissingET-00-01-25 xAODMissingET
     svn co ${SVNOFF}/Reconstruction/MET/METInterface/tags/METInterface-00-01-12 METInterface
-    svn co ${SVNOFF}/Reconstruction/MET/METUtilities/tags/METUtilities-00-01-45 METUtilities
 
     # TrigEgammaMatchingTool (note: this tool should not be used in standalone rootcore, we simply
     # check it out for completeness w.r.t. the SUSYTools package lists
@@ -82,7 +78,7 @@ function checkout_packages_uci {
     cd SusyNtuple
     if [ "${dev_or_stable}" = "--stable" ]
     then
-        git checkout SusyNtuple-00-02-08  # tag n0210
+        git checkout SusyNtuple-00-02-09  # tag n0211
     else
         git checkout -b mc15 origin/mc15
     fi
@@ -91,7 +87,7 @@ function checkout_packages_uci {
     cd SusyCommon
     if [ "${dev_or_stable}" = "--stable" ]
     then
-        git checkout SusyCommon-00-02-08 # tag n0210
+        git checkout SusyCommon-00-02-09 # tag n0211
     else
         git checkout -b mc15 origin/mc15
     fi
