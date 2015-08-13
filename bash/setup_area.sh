@@ -87,7 +87,7 @@ function checkout_packages_uci {
     cd SusyCommon
     if [ "${dev_or_stable}" = "--stable" ]
     then
-        git checkout SusyCommon-00-02-09 # tag n0211
+        git checkout SusyCommon-00-02-09-01 # tag n0211
     else
         git checkout -b mc15 origin/mc15
     fi
