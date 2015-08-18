@@ -63,10 +63,6 @@ function checkout_packages_external {
 
     # SusyNtuple dependencies
     svn co ${SVNWEAK}/Mt2/tags/Mt2-00-00-01                                       Mt2
-    svn co ${SVNWEAK}/TriggerMatch/tags/TriggerMatch-00-00-10                     TriggerMatch
-    svn co ${SVNWEAK}/DGTriggerReweight/tags/DGTriggerReweight-00-00-29           DGTriggerReweight
-    svn co ${SVNWEAK}/LeptonTruthTools/tags/LeptonTruthTools-00-01-07             LeptonTruthTools
-    svn co ${SVNOFF}/Reconstruction/Jet/JetAnalysisTools/JVFUncertaintyTool/tags/JVFUncertaintyTool-00-00-04  JVFUncertaintyTool
 
     #todo : check that all packages are actually there
 }
