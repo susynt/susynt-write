@@ -50,21 +50,12 @@ function checkout_packages_external {
 
     cd ${PROD_DIR}
 
-    # base 2.3.18
-    svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-06-17-03 SUSYTools
-    # Additional packages needed on top of Base,2.3.21 & SUSYTools-00-06-17-03
-    svn co ${SVNOFF}/Reconstruction/MET/METUtilities/tags/METUtilities-00-01-45 METUtilities
-    svn co ${SVNOFF}/Event/xAOD/xAODMissingET/tags/xAODMissingET-00-01-25 xAODMissingET
-    svn co ${SVNOFF}/Reconstruction/MET/METInterface/tags/METInterface-00-01-12 METInterface
-
-    # TrigEgammaMatchingTool (note: this tool should not be used in standalone rootcore, we simply
-    # check it out for completeness w.r.t. the SUSYTools package lists
-    #svn co ${SVNOFF}/Trigger/TrigAnalysis/TrigEgammaMatchingTool/tags/TrigEgammaMatchingTool-00-00-05 TrigEgammaMatchingTool
+    # base 2.3.23
+    svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-06-22 SUSYTools
 
     # SusyNtuple dependencies
     svn co ${SVNWEAK}/Mt2/tags/Mt2-00-00-01                                       Mt2
 
-    #todo : check that all packages are actually there
 }
 
 function checkout_packages_uci {
@@ -74,7 +65,7 @@ function checkout_packages_uci {
     cd SusyNtuple
     if [ "${dev_or_stable}" = "--stable" ]
     then
-        git checkout SusyNtuple-00-02-09  # tag n0211
+        git checkout SusyNtuple-00-02-10  # tag n0213
     else
         git checkout -b mc15 origin/mc15
     fi
@@ -83,7 +74,7 @@ function checkout_packages_uci {
     cd SusyCommon
     if [ "${dev_or_stable}" = "--stable" ]
     then
-        git checkout SusyCommon-00-02-09 # tag n0211
+        git checkout SusyCommon-00-02-10 # tag n0213
     else
         git checkout -b mc15 origin/mc15
     fi
@@ -115,20 +106,6 @@ function main {
     echo "rc find_packages"
     echo "rc compile 2>&1 | tee compile.log"
 
-    echo ""
-    tput setaf 2
-    echo 'Note: you must point the bTag SF tool in SUSYTools to to the CDIFiles
-located in SusyCommon/data/. To do this add Ln587 below and edit the "ScaleFactorFileName"
-property line (Ln588 below) in SUSYTools/Root/SUSYToolsInit.cxx:
-
- 586       ATH_CHECK( btagTool->setProperty("JetAuthor",      jetdef ) );
- 587       std::string tmparea=getenv("ROOTCOREBIN");
- 588       ATH_CHECK( btagTool->setProperty("ScaleFactorFileName", tmparea + "/data/SusyCommon/CDIFiles/13TeV/2015-PreRecomm-13TeV-MC12-CDI_July15-v1.root") );
- 589       ATH_CHECK( btagTool->setProperty("SystematicsStrategy","Envelope") ); '
-    tput setaf 1
-    echo "Do this before running bash/setup_release.sh (otherwise SUSYTools will not compile)"
-    tput sgr0
-    
 }
 
 main $*
