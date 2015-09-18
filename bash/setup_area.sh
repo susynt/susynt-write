@@ -52,10 +52,6 @@ function checkout_packages_external {
 
     # base 2.3.23
     svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-06-22 SUSYTools
-
-    # SusyNtuple dependencies
-    svn co ${SVNWEAK}/Mt2/tags/Mt2-00-00-01                                       Mt2
-
 }
 
 function checkout_packages_uci {
