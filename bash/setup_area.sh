@@ -58,9 +58,6 @@ function checkout_packages_external {
     svn co ${SVNOFF}/PhysicsAnalysis/AnalysisCommon/IsolationSelection-00-01-00 IsolationSelection
     # check out this tag of TauAnalysisTools so things work
     svn co ${SVNOFF}/PhysicsAnalysis/TauID/TauAnalysisTools/tags/TauAnalysisTools-00-00-50 TauAnalysisTools
-
-    # SusyNtuple dependencies
-    svn co ${SVNWEAK}/Mt2/tags/Mt2-00-00-01                                       Mt2
 }
 
 function checkout_packages_uci {
