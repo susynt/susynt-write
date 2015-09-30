@@ -55,7 +55,7 @@ function checkout_packages_external {
     svn co ${SVNOFF}/PhysicsAnalysis/AnalysisCommon/AssociationUtils/tags/AssociationUtils-01-01-04 AssociationUtils
     svn co ${SVNOFF}/Event/xAOD/xAODMuon/tags/xAODMuon-00-16-02 xAODMuon
     # get the IsolationSelectionTool from the corresponding AnalysisSusy (it has the newer WP)
-    svn co ${SVNOFF}/PhysicsAnalysis/AnalysisCommon/IsolationSelection-00-01-00 IsolationSelection
+    svn co ${SVNOFF}/PhysicsAnalysis/AnalysisCommon/IsolationSelection/tags/IsolationSelection-00-01-00 IsolationSelection
     # check out this tag of TauAnalysisTools so things work
     svn co ${SVNOFF}/PhysicsAnalysis/TauID/TauAnalysisTools/tags/TauAnalysisTools-00-00-50 TauAnalysisTools
 
@@ -81,7 +81,7 @@ function checkout_packages_uci {
     then
         git checkout SusyCommon-00-02-10 # tag n0213
     else
-        git checkout -b mc15 origin/mc15
+        git checkout -b master origin/master
     fi
     cd -
 }
