@@ -11,7 +11,7 @@ Prerequisites:
 Follow these commands to set up an area to read SusyNtuples.
 
 ```
-git clone git@github.com:gerbaudo/susynt-write.git --branch xaod
+git clone https://github.com/susynt/susynt-write.git
 cd susynt-write
 source bash/setup_release.sh
 ./bash/setup_area.sh [--dev] 2>&1 | tee install.log
@@ -37,8 +37,10 @@ cd susynt-write
 source bash/setup_release.sh
 ```
 
-Note1: the submission of the jobs must be performed from a
+**Note1**: the submission of the jobs must be performed from a
 different directory from the one where the packages are compiled.
 
-Note2: if you want to submit a production, you should use the
-`--stable` option of `setup_area.sh`.
+**Note2**: By default you'll get the most recent stable tags of
+SusyCommon and SusyNtuple.  If you want to develop code, you should
+replace `https://github.com/` with `git@github.com:` and run
+`setup_area.sh` with the `--dev` option.
