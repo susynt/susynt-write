@@ -4,23 +4,24 @@
 #
 # Requirements:
 # - access to the svn.cern.ch repositories
-# - have 'localSetupRoot' defined.
-#   This depends on your specifi setup; on gpatlas* these commands are defined with
-#   > export ATLAS_LOCAL_ROOT_BASE =/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase
-#   > source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh
+# - have 'setupATLAS' defined
+# - have access to github
 #
-# Main steps:
-# - source this script
-#   > source setup_area.sh
-# - this will create a directory `prod` with all the packages, and compile them
-# - try running NtMaker
 # davide.gerbaudo@gmail.com, Mar 2013
 
 
 readonly SCRIPT_NAME=$(basename $0)
 # see http://stackoverflow.com/questions/59895/can-a-bash-script-tell-what-directory-its-stored-in
 readonly PROG_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-readonly PROD_DIR="${PROG_DIR}/../prod"
+readonly PROD_DIR="${PROG_DIR}/../" # 'production' dir, where we checkout all of the packages
+
+function print_usage {
+    echo "Usage:"
+    echo "setup_area.sh [--stable] [--help]"
+    echo " --stable: checkout the latest stable packages, for production"
+    echo "           (by default checkout the development branch)"
+    echo " --help:   print this message"
+}
 
 function require_root {
     : ${ROOTSYS:?"Need to set up root."}
@@ -37,43 +38,62 @@ function missing_kerberos {
     fi
 }
 
-function checkout_packages {
-    mkdir -p ${PROD_DIR}
-    cd       ${PROD_DIR}
+function prepare_directories {
+    cd ${PROD_DIR}
+    mkdir -p ${PROD_DIR}/susynt_xaod_timing
+}
 
+function checkout_packages_external {
     local SVNOFF="svn+ssh://svn.cern.ch/reps/atlasoff/"
     local SVNPHYS="svn+ssh://svn.cern.ch/reps/atlasphys/"
     local SVNWEAK="svn+ssh://svn.cern.ch/reps/atlasphys/Physics/SUSY/Analyses/WeakProduction/"
 
-    svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-03-23   SUSYTools
-    python SUSYTools/python/install.py
+    cd ${PROD_DIR}
 
-    svn co ${SVNWEAK}/MultiLep/tags/MultiLep-01-06-08                             MultiLep
+    # base 2.3.28
+    svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-06-24-01 SUSYTools
+    svn co ${SVNOFF}/PhysicsAnalysis/AnalysisCommon/AssociationUtils/tags/AssociationUtils-01-01-04 AssociationUtils
+    svn co ${SVNOFF}/Event/xAOD/xAODMuon/tags/xAODMuon-00-16-02 xAODMuon
+    # get the IsolationSelectionTool from the corresponding AnalysisSusy (it has the newer WP)
+    svn co ${SVNOFF}/PhysicsAnalysis/AnalysisCommon/IsolationSelection-00-01-00 IsolationSelection
+    # check out this tag of TauAnalysisTools so things work
+    svn co ${SVNOFF}/PhysicsAnalysis/TauID/TauAnalysisTools/tags/TauAnalysisTools-00-00-50 TauAnalysisTools
+
+    # SusyNtuple dependencies
     svn co ${SVNWEAK}/Mt2/tags/Mt2-00-00-01                                       Mt2
-    svn co ${SVNWEAK}/TopTag/tags/TopTag-00-00-01                                 TopTag
-    svn co ${SVNWEAK}/TriggerMatch/tags/TriggerMatch-00-00-10                     TriggerMatch
-    svn co ${SVNWEAK}/DGTriggerReweight/tags/DGTriggerReweight-00-00-29           DGTriggerReweight
-    svn co ${SVNWEAK}/SignificanceCalculator/tags/SignificanceCalculator-00-00-02 SignificanceCalculator
-    svn co ${SVNWEAK}/HistFitterTree/tags/HistFitterTree-00-00-21                 HistFitterTree
-    svn co ${SVNWEAK}/LeptonTruthTools/tags/LeptonTruthTools-00-01-07             LeptonTruthTools
-
-    git clone git@github.com:gerbaudo/SusyNtuple.git SusyNtuple
-    cd SusyNtuple; git checkout SusyNtuple-00-01-15; cd -
-    git clone git@github.com:gerbaudo/SusyCommon.git SusyCommon
-    cd SusyCommon; git checkout SusyCommon-00-01-10; cd -
-    # todo : check that all packages are actually there
 }
 
-function compile_packages {
-    localSetupROOT --rootVersion 5.34.18-x86_64-slc6-gcc4.7
-    # the option below is the one needed for submit.py (see output of localSetupROOT)
-    # --rootVer=5.34/18 --cmtConfig=x86_64-slc6-gcc47-opt
-    source RootCore/scripts/setup.sh
-    rc find_packages
-    rc compile
+function checkout_packages_uci {
+    local dev_or_stable="$1" # whether we should checkout the dev branch or the latest production tags
+    cd ${PROD_DIR}
+    git clone git@github.com:gerbaudo/SusyNtuple.git SusyNtuple
+    cd SusyNtuple
+    if [ "${dev_or_stable}" = "--stable" ]
+    then
+        git checkout SusyNtuple-00-03-01  # tag n0213-02
+    else
+        git checkout -b master origin/master
+    fi
+    cd -
+    git clone git@github.com:gerbaudo/SusyCommon.git SusyCommon
+    cd SusyCommon
+    if [ "${dev_or_stable}" = "--stable" ]
+    then
+        git checkout SusyCommon-00-02-10 # tag n0213
+    else
+        git checkout -b mc15 origin/mc15
+    fi
+    cd -
 }
 
 function main {
+    if [ $# -ge 2 ]; then
+        print_usage
+        return
+    elif [ $# -eq 1 ] && [ "$1" == "--help" ]; then
+        print_usage
+        return
+    fi
     echo "Starting                          -- `date`"
     # todo: sanity/env checks (probably better off in python)
     # if missing_kerberos
@@ -83,9 +103,14 @@ function main {
     # else
     #     echo "checkout and compile"
     # fi
-    checkout_packages
-    compile_packages
+    prepare_directories
+    checkout_packages_external
+    checkout_packages_uci $*
     echo "Done                              -- `date`"
+    echo "You can now go ahead and compile with:"
+    echo "rc find_packages"
+    echo "rc compile 2>&1 | tee compile.log"
+
 }
 
-main
+main $*
