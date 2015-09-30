@@ -71,7 +71,7 @@ function checkout_packages_uci {
     if [[ "${dev_or_stable}" = "dev" ]]
     then
         GIT="git@github.com:" # read+write
-        tag_common="mc15"
+        tag_common="master"
         tag_ntuple="master"
     elif [[ "${dev_or_stable}" = "stable" ]]
     then
