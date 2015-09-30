@@ -64,53 +64,69 @@ function checkout_packages_external {
 }
 
 function checkout_packages_uci {
-    local dev_or_stable="$1" # whether we should checkout the dev branch or the latest production tags
+    local dev_or_stable="$1"
+    local GIT=""
+    local tag_common=""
+    local tag_ntuple=""
+    if [[ "${dev_or_stable}" = "dev" ]]
+    then
+        GIT="git@github.com:" # read+write
+        tag_common="mc15"
+        tag_ntuple="master"
+    elif [[ "${dev_or_stable}" = "stable" ]]
+    then
+        GIT="https://github.com/" # read-only
+        tag_common="SusyCommon-00-02-10" # tag n0213
+        tag_ntuple="SusyNtuple-00-03-01" # tag n0213-02
+    else
+        echo "unknown dev_or_stable '${dev_or_stable}'"
+    fi
     cd ${PROD_DIR}
-    git clone git@github.com:gerbaudo/SusyNtuple.git SusyNtuple
-    cd SusyNtuple
-    if [ "${dev_or_stable}" = "--stable" ]
-    then
-        git checkout SusyNtuple-00-03-01  # tag n0213-02
-    else
-        git checkout -b master origin/master
-    fi
-    cd -
-    git clone git@github.com:gerbaudo/SusyCommon.git SusyCommon
-    cd SusyCommon
-    if [ "${dev_or_stable}" = "--stable" ]
-    then
-        git checkout SusyCommon-00-02-10 # tag n0213
-    else
-        git checkout -b mc15 origin/mc15
-    fi
-    cd -
-}
+    git clone ${GIT}susynt/SusyNtuple.git SusyNtuple
+    git clone ${GIT}susynt/SusyCommon.git SusyCommon
 
+    cd ${PROD_DIR}/SusyNtuple && git checkout ${tag_ntuple}
+    cd ${PROD_DIR}/SusyCommon && git checkout ${tag_common}
+    cd ${PROD_DIR}
+}
+#-----------------------------------------------------------
 function main {
-    if [ $# -ge 2 ]; then
+    # parse as in
+    # http://stackoverflow.com/questions/192249/how-do-i-parse-command-line-arguments-in-bash
+    local dev_or_stable="stable"
+    local help=""
+    while [[ $# > 0 ]]
+    do
+        key="$1"
+        case $key in
+            --dev)
+                dev_or_stable="dev"
+                ;;
+            -h|--help)
+                help=true
+                ;;
+            *)
+                # unknown option
+                ;;
+        esac
+        shift # past argument or value
+    done
+
+
+    if [[ ${help} ]]
+    then
         print_usage
-        return
-    elif [ $# -eq 1 ] && [ "$1" == "--help" ]; then
-        print_usage
-        return
+    else
+        echo "Starting                          -- `date`"
+        prepare_directories
+        checkout_packages_external
+        checkout_packages_uci ${dev_or_stable}
+        echo "Done                              -- `date`"
+        echo "You can now go ahead and compile with:"
+        echo "rc find_packages"
+        echo "rc compile 2>&1 | tee compile.log"
+
     fi
-    echo "Starting                          -- `date`"
-    # todo: sanity/env checks (probably better off in python)
-    # if missing_kerberos
-    # then
-    #     echo "cannot continue"
-    #     return 1
-    # else
-    #     echo "checkout and compile"
-    # fi
-    prepare_directories
-    checkout_packages_external
-    checkout_packages_uci $*
-    echo "Done                              -- `date`"
-    echo "You can now go ahead and compile with:"
-    echo "rc find_packages"
-    echo "rc compile 2>&1 | tee compile.log"
-
 }
-
+#-----------------------------------------------------------
 main $*
