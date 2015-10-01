@@ -6,17 +6,14 @@ Example package to write SusyNt nutples
 Prerequisites:
 - cvmfs (`echo ${ATLAS_LOCAL_ROOT_BASE}`) and setupATLAS
 - svn access and kerberos ticket (`klist`)
-- localSetupPandaClient
 
-Follow these commands to set up an area to read SusyNtuples.
+Follow these commands to set up an area to write SusyNtuples.
 
 ```
-git clone git@github.com:gerbaudo/susynt-write.git --branch xaod
+git clone -b master git@github.com:susynt/susynt-write.git
 cd susynt-write
-source bash/setup_release.sh
-./bash/setup_area.sh 2>&1 | tee install.log
-rc find_packages
-rc compile 2>&1 | tee compile.log
+source bash/setup_area.sh 2>&1 | tee install.log
+source bash/setup_release 2>&1 | tee compile.log
 ```
 
 The commands above will checkout and compile all the packages that are
@@ -28,13 +25,13 @@ NtMaker -f <xaod_file.root>
 (see `test_and_log.sh` for recent example input files):
 
 For the submission of your jobs to the grid, see
-[susynt-submit](https://github.com/gerbaudo/susynt-submit).
+[susynt-submit](https://github.com/susynt/susynt-submit).
 
 The commands above are needed only on the first setup.
-On the following sessions:
+On the following sessions (from a clean environment):
 ```
 cd susynt-write
-source bash/setup_release.sh
+rcSetup
 ```
 
 Note1: the submission of the jobs must be performed from a

@@ -58,15 +58,12 @@ function checkout_packages_external {
     svn co ${SVNOFF}/PhysicsAnalysis/AnalysisCommon/IsolationSelection/tags/IsolationSelection-00-01-00 IsolationSelection
     # check out this tag of TauAnalysisTools so things work
     svn co ${SVNOFF}/PhysicsAnalysis/TauID/TauAnalysisTools/tags/TauAnalysisTools-00-00-50 TauAnalysisTools
-
-    # SusyNtuple dependencies
-    svn co ${SVNWEAK}/Mt2/tags/Mt2-00-00-01                                       Mt2
 }
 
 function checkout_packages_uci {
     local dev_or_stable="$1" # whether we should checkout the dev branch or the latest production tags
     cd ${PROD_DIR}
-    git clone git@github.com:gerbaudo/SusyNtuple.git SusyNtuple
+    git clone git@github.com:susynt/SusyNtuple.git SusyNtuple
     cd SusyNtuple
     if [ "${dev_or_stable}" = "--stable" ]
     then
@@ -75,7 +72,7 @@ function checkout_packages_uci {
         git checkout -b master origin/master
     fi
     cd -
-    git clone git@github.com:gerbaudo/SusyCommon.git SusyCommon
+    git clone git@github.com:susynt/SusyCommon.git SusyCommon
     cd SusyCommon
     if [ "${dev_or_stable}" = "--stable" ]
     then
@@ -107,10 +104,9 @@ function main {
     checkout_packages_external
     checkout_packages_uci $*
     echo "Done                              -- `date`"
-    echo "You can now go ahead and compile with:"
-    echo "rc find_packages"
-    echo "rc compile 2>&1 | tee compile.log"
-
+    echo "You can now go ahead and set-up the analysis release"
+    echo "and compile all packages by running:"
+    echo "source bash/setup_release.sh 2>&1 | tee compile.log"
 }
 
 main $*
