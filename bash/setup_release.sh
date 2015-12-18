@@ -10,7 +10,6 @@ source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh
 
 setupATLAS
 lsetup "rcsetup -u"
-# lsetup "rcsetup Base,2.3.38b"
 lsetup "rcsetup SUSY,2.3.38b"
 rc find_packages
 rc clean
