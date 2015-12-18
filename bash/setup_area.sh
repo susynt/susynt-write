@@ -49,14 +49,8 @@ function checkout_packages_external {
     local SVNWEAK="svn+ssh://svn.cern.ch/reps/atlasphys/Physics/SUSY/Analyses/WeakProduction/"
 
     cd ${PROD_DIR}
-
-    # base 2.3.28
-    svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-06-24-01 SUSYTools
-    svn co ${SVNOFF}/PhysicsAnalysis/AnalysisCommon/AssociationUtils/tags/AssociationUtils-01-01-04 AssociationUtils
-    svn co ${SVNOFF}/Event/xAOD/xAODMuon/tags/xAODMuon-00-16-02 xAODMuon
-    # get the IsolationSelectionTool from the corresponding AnalysisSusy (it has the newer WP)
-    svn co ${SVNOFF}/PhysicsAnalysis/AnalysisCommon/IsolationSelection/tags/IsolationSelection-00-01-00 IsolationSelection
-    # check out this tag of TauAnalysisTools so things work
+    svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-07-17 SUSYTools
+    # check out this older tag of TauAnalysisTools (otherwise chrashing on missing track link)
     svn co ${SVNOFF}/PhysicsAnalysis/TauID/TauAnalysisTools/tags/TauAnalysisTools-00-00-50 TauAnalysisTools
 }
 
@@ -67,7 +61,7 @@ function checkout_packages_uci {
     cd SusyNtuple
     if [ "${dev_or_stable}" = "--stable" ]
     then
-        git checkout SusyNtuple-00-03-02  # tag n0216
+        git checkout SusyNtuple-00-04-01  # tag n0218
     else
         git checkout -b master origin/master
     fi
@@ -76,7 +70,7 @@ function checkout_packages_uci {
     cd SusyCommon
     if [ "${dev_or_stable}" = "--stable" ]
     then
-        git checkout SusyCommon-00-02-11 # tag n0216
+        git checkout SusyCommon-00-02-13 # tag n0218
     else
         git checkout -b master origin/master
     fi

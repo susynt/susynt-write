@@ -10,8 +10,11 @@ source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh
 
 setupATLAS
 lsetup "rcsetup -u"
-lsetup "rcsetup Base,2.3.28"
+lsetup "rcsetup SUSY,2.3.38b"
 rc find_packages
 rc clean
 rc compile
 
+# you might want to do
+# rcsetup --listPackages SUSY,2.3.38b > packages_susy_2_3_38b.txt
+# to have a list to compare to your local packages
