@@ -10,14 +10,27 @@ Prerequisites:
 Follow these commands to set up an area to write SusyNtuples.
 
 ```
-git clone -b master git@github.com:susynt/susynt-write.git
+git clone git@github.com:susynt/susynt-write.git
 cd susynt-write
-source bash/setup_area.sh 2>&1 | tee install.log
-source bash/setup_release 2>&1 | tee compile.log
+git checkout nXXXX
+source bash/setup_area.sh --stable |tee install.log
+source bash/setup_release 2>&1 |tee compile.log
 ```
 
 The commands above will checkout and compile all the packages that are
-necessary to run `NtMaker`. You you can test `NtMaker` as:
+necessary to run `NtMaker`. If you are not a developer or do not have
+a github account (make one if this is the case!), replace the first
+line in the above with:
+```
+git clone https://github.com/susynt/susynt-write.git
+```
+The option  "--stable" for the script setup_area.sh ensures that
+you will checkout the tags for the specific SusyNt production
+nXXXX. If you do not provide the "--stable" option, you will
+checkout the master/development branches of both SusyNtuple
+and SusyCommon.
+
+You you can test `NtMaker` as:
 ```
 cd SusyCommon/run
 NtMaker -f <xaod_file.root>
