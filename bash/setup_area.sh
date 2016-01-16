@@ -49,9 +49,10 @@ function checkout_packages_external {
     local SVNWEAK="svn+ssh://svn.cern.ch/reps/atlasphys/Physics/SUSY/Analyses/WeakProduction/"
 
     cd ${PROD_DIR}
-    svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-07-19 SUSYTools
+    svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-07-23 SUSYTools
     # check out this older tag of TauAnalysisTools (otherwise chrashing on missing track link)
     svn co ${SVNOFF}/PhysicsAnalysis/TauID/TauAnalysisTools/tags/TauAnalysisTools-00-00-50 TauAnalysisTools
+    svn co ${SVNOFF}/PhysicsAnalysis/AnalysisCommon/PileupReweighting/tags/PileupReweighting-00-03-18 PileupReweighting
     
 }
 
@@ -62,7 +63,7 @@ function checkout_packages_uci {
     cd SusyNtuple
     if [ "${dev_or_stable}" = "--stable" ]
     then
-        git checkout SusyNtuple-00-04-02  # tag n0219
+        git checkout SusyNtuple-00-04-02  # tag n0220
     else
         git checkout -b master origin/master
     fi
@@ -71,7 +72,7 @@ function checkout_packages_uci {
     cd SusyCommon
     if [ "${dev_or_stable}" = "--stable" ]
     then
-        git checkout SusyCommon-00-02-14 # tag n0219
+        git checkout SusyCommon-00-02-15 # tag n0220
     else
         git checkout -b master origin/master
     fi
