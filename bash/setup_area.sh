@@ -61,7 +61,7 @@ function checkout_packages_uci {
     cd SusyNtuple
     if [ "${dev_or_stable}" = "--stable" ]
     then
-        git checkout SusyNtuple-00-04-01  # tag n0218
+        git checkout SusyNtuple-00-04-01  # tag n0218b
     else
         git checkout -b master origin/master
     fi
@@ -70,7 +70,7 @@ function checkout_packages_uci {
     cd SusyCommon
     if [ "${dev_or_stable}" = "--stable" ]
     then
-        git checkout SusyCommon-00-02-13 # tag n0218
+        git checkout SusyCommon-00-02-13-01 # tag n0218b
     else
         git checkout -b master origin/master
     fi
