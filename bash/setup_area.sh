@@ -49,10 +49,9 @@ function checkout_packages_external {
     local SVNWEAK="svn+ssh://svn.cern.ch/reps/atlasphys/Physics/SUSY/Analyses/WeakProduction/"
 
     cd ${PROD_DIR}
-    svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-07-23 SUSYTools
+    svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-07-32 SUSYTools
     # check out this older tag of TauAnalysisTools (otherwise chrashing on missing track link)
     svn co ${SVNOFF}/PhysicsAnalysis/TauID/TauAnalysisTools/tags/TauAnalysisTools-00-00-50 TauAnalysisTools
-    svn co ${SVNOFF}/PhysicsAnalysis/AnalysisCommon/PileupReweighting/tags/PileupReweighting-00-03-18 PileupReweighting
     
 }
 
@@ -99,6 +98,12 @@ function main {
     prepare_directories
     checkout_packages_external
     checkout_packages_uci $*
+
+    # ------ n0221 ------ #
+    # patch SUSYTools
+    echo "Applying patch to SUSYTools to move muon signal ID check from FillMuon to IsSignalMuon"
+    patch -p0 < SUSYTools_patchMuonSignalIDCheck.patch
+
     echo "Done                              -- `date`"
     echo "You can now go ahead and set-up the analysis release"
     echo "and compile all packages by running:"
