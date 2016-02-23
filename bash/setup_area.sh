@@ -49,9 +49,10 @@ function checkout_packages_external {
     local SVNWEAK="svn+ssh://svn.cern.ch/reps/atlasphys/Physics/SUSY/Analyses/WeakProduction/"
 
     cd ${PROD_DIR}
-    svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-07-32 SUSYTools
-    # check out this older tag of TauAnalysisTools (otherwise chrashing on missing track link)
-    svn co ${SVNOFF}/PhysicsAnalysis/TauID/TauAnalysisTools/tags/TauAnalysisTools-00-00-50 TauAnalysisTools
+    svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-07-41 SUSYTools
+    # dependencies on top of the release (from SUSYTools/doc/packages.txt)
+    svn co ${SVNOFF}/PhysicsAnalysis/ElectronPhotonID/ElectronEfficiencyCorrection/tags/ElectronEfficiencyCorrection-00-01-42 ElectronEfficiencyCorrection
+    svn co ${SVNOFF}/PhysicsAnalysis/ElectronPhotonID/PhotonEfficiencyCorrection/tags/PhotonEfficiencyCorrection-00-01-14 PhotonEfficiencyCorrection
     
 }
 
