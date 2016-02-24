@@ -100,10 +100,9 @@ function main {
     checkout_packages_external
     checkout_packages_uci $*
 
-    # ------ n0221 ------ #
-    # patch SUSYTools
-    echo "Applying patch to SUSYTools to move muon signal ID check from FillMuon to IsSignalMuon"
-    patch -p0 < SUSYTools_patchMuonSignalIDCheck.patch
+    # patch SUSYTools to add photon cleaning decorators
+    echo "Patching SUSYTools to include photon cleaning and ambiguity decorators"
+    patch -p0 < patchPhotonDecoratorsSUSYTools.patch
 
     echo "Done                              -- `date`"
     echo "You can now go ahead and set-up the analysis release"
