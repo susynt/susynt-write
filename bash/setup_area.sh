@@ -60,12 +60,12 @@ function checkout_packages_uci {
     local dev_or_stable="$1" # whether we should checkout the dev branch or the latest production tags
     if [ "${dev_or_stable}" = "--stable" ]
     then
-        tput setaf 1
         echo "---------------------------------------------"
+        tput setaf 2
         echo " You are checking out the tags for the n0222"
         echo " production of SusyNt."
-        echo "---------------------------------------------"
         tput sgr0
+        echo "---------------------------------------------"
     else
         echo "---------------------------------------------"
         echo " You are checking out the master branches of "
@@ -75,6 +75,7 @@ function checkout_packages_uci {
         echo " n0222 production, please call this script"
         echo " with the '--stable' cmd line option."
         tput sgr0
+        echo "---------------------------------------------"
     fi
     
     cd ${PROD_DIR}
