@@ -58,12 +58,31 @@ function checkout_packages_external {
 
 function checkout_packages_uci {
     local dev_or_stable="$1" # whether we should checkout the dev branch or the latest production tags
+    if [ "${dev_or_stable}" = "--stable" ]
+    then
+        tput setaf 1
+        echo "---------------------------------------------"
+        echo " You are checking out the tags for the n0222"
+        echo " production of SusyNt."
+        echo "---------------------------------------------"
+        tput sgr0
+    else
+        echo "---------------------------------------------"
+        echo " You are checking out the master branches of "
+        echo " SusyNtuple and SusyCommon."
+        tput setaf 1
+        echo " If you mean to write SusyNt's from the   "
+        echo " n0222 production, please call this script"
+        echo " with the '--stable' cmd line option."
+        tput sgr0
+    fi
+    
     cd ${PROD_DIR}
     git clone git@github.com:susynt/SusyNtuple.git SusyNtuple
     cd SusyNtuple
     if [ "${dev_or_stable}" = "--stable" ]
     then
-        git checkout SusyNtuple-00-04-02  # tag n0220
+        git checkout SusyNtuple-00-05-01  # tag n0222
     else
         git checkout -b master origin/master
     fi
@@ -72,7 +91,7 @@ function checkout_packages_uci {
     cd SusyCommon
     if [ "${dev_or_stable}" = "--stable" ]
     then
-        git checkout SusyCommon-00-02-15 # tag n0220
+        git checkout SusyCommon-00-03-01 # tag n0222
     else
         git checkout -b master origin/master
     fi
