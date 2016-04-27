@@ -49,21 +49,41 @@ function checkout_packages_external {
     local SVNWEAK="svn+ssh://svn.cern.ch/reps/atlasphys/Physics/SUSY/Analyses/WeakProduction/"
 
     cd ${PROD_DIR}
-    svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-07-23 SUSYTools
-    # check out this older tag of TauAnalysisTools (otherwise chrashing on missing track link)
-    svn co ${SVNOFF}/PhysicsAnalysis/TauID/TauAnalysisTools/tags/TauAnalysisTools-00-00-50 TauAnalysisTools
-    svn co ${SVNOFF}/PhysicsAnalysis/AnalysisCommon/PileupReweighting/tags/PileupReweighting-00-03-18 PileupReweighting
+    svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-07-41 SUSYTools
+    # dependencies on top of the release (from SUSYTools/doc/packages.txt)
+    svn co ${SVNOFF}/PhysicsAnalysis/ElectronPhotonID/ElectronEfficiencyCorrection/tags/ElectronEfficiencyCorrection-00-01-42 ElectronEfficiencyCorrection
+    svn co ${SVNOFF}/PhysicsAnalysis/ElectronPhotonID/PhotonEfficiencyCorrection/tags/PhotonEfficiencyCorrection-00-01-14 PhotonEfficiencyCorrection
     
 }
 
 function checkout_packages_uci {
     local dev_or_stable="$1" # whether we should checkout the dev branch or the latest production tags
+    if [ "${dev_or_stable}" = "--stable" ]
+    then
+        echo "---------------------------------------------"
+        tput setaf 2
+        echo " You are checking out the tags for the n0222"
+        echo " production of SusyNt."
+        tput sgr0
+        echo "---------------------------------------------"
+    else
+        echo "---------------------------------------------"
+        echo " You are checking out the master branches of "
+        echo " SusyNtuple and SusyCommon."
+        tput setaf 1
+        echo " If you mean to write SusyNt's from the   "
+        echo " n0222 production, please call this script"
+        echo " with the '--stable' cmd line option."
+        tput sgr0
+        echo "---------------------------------------------"
+    fi
+    
     cd ${PROD_DIR}
     git clone git@github.com:susynt/SusyNtuple.git SusyNtuple
     cd SusyNtuple
     if [ "${dev_or_stable}" = "--stable" ]
     then
-        git checkout SusyNtuple-00-04-02  # tag n0220
+        git checkout SusyNtuple-00-05-01  # tag n0222
     else
         git checkout -b master origin/master
     fi
@@ -72,7 +92,7 @@ function checkout_packages_uci {
     cd SusyCommon
     if [ "${dev_or_stable}" = "--stable" ]
     then
-        git checkout SusyCommon-00-02-15 # tag n0220
+        git checkout SusyCommon-00-03-01 # tag n0222
     else
         git checkout -b master origin/master
     fi
@@ -99,6 +119,11 @@ function main {
     prepare_directories
     checkout_packages_external
     checkout_packages_uci $*
+
+    # patch SUSYTools to add photon cleaning decorators
+    echo "Patching SUSYTools to include photon cleaning and ambiguity decorators"
+    patch -p0 < patchPhotonDecoratorsSUSYTools.patch
+
     echo "Done                              -- `date`"
     echo "You can now go ahead and set-up the analysis release"
     echo "and compile all packages by running:"

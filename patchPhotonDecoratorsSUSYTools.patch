@@ -1,0 +1,35 @@
+Index: SUSYTools/Root/SUSYObjDef_xAOD.cxx
+===================================================================
+--- SUSYTools/Root/SUSYObjDef_xAOD.cxx	(revision 725684)
++++ SUSYTools/Root/SUSYObjDef_xAOD.cxx	(working copy)
+@@ -85,6 +85,9 @@
+ static SG::AuxElement::ConstAccessor<float> cacc_jvt("Jvt");
+ static SG::AuxElement::Decorator<double> dec_effscalefact("effscalefact");
+ 
++static SG::AuxElement::Decorator<char> dec_photonPassCleaning("passCleaning");
++static SG::AuxElement::Decorator<char> dec_photonPassAmbiguity("passAmbiguity");
++
+ SUSYObjDef_xAOD::SUSYObjDef_xAOD( const std::string& name )
+   : asg::AsgMetadataTool( name ),
+     m_dataSource(Undefined),
+@@ -1631,6 +1634,9 @@
+   dec_baseline(input) = false;
+   dec_isol(input) = false;
+ 
++  dec_photonPassCleaning(input) = false;
++  dec_photonPassAmbiguity(input) = false;
++
+   // Author cuts needed according to https://twiki.cern.ch/twiki/bin/view/AtlasProtected/EGammaIdentificationRun2#Photon_authors
+   if ( !(input.author() & (xAOD::EgammaParameters::AuthorPhoton + xAOD::EgammaParameters::AuthorAmbiguous)) )
+     return StatusCode::SUCCESS;
+@@ -1655,8 +1661,10 @@
+   float ph_rphi = input.showerShapeValue(xAOD::EgammaParameters::Rphi);
+ 
+   if ( (ph_OQ & 134217728) != 0 && (ph_reta > 0.98 || ph_rphi > 1.0 || (ph_OQ & 67108864) != 0) ) return StatusCode::SUCCESS;
++  dec_photonPassCleaning(input) = true;
+ 
+   if (!m_egammaAmbiguityTool->accept( input ) ) return StatusCode::SUCCESS;
++  dec_photonPassAmbiguity(input) = true;
+ 
+   if (!isAtlfast() && !isData()) {
+     if ( m_electronPhotonShowerShapeFudgeTool->applyCorrection(input) != CP::CorrectionCode::Ok)
