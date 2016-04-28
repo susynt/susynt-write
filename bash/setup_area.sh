@@ -51,11 +51,13 @@ function checkout_packages_external {
 
     cd ${PROD_DIR}
     svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-07-51 SUSYTools
-    # dependencies on top of the release (from SUSYTools/doc/packages.txt)
-    #svn co ${SVNOFF}/PhysicsAnalysis/ElectronPhotonID/ElectronEfficiencyCorrection/tags/ElectronEfficiencyCorrection-00-01-42 ElectronEfficiencyCorrection
-    #svn co ${SVNOFF}/PhysicsAnalysis/ElectronPhotonID/PhotonEfficiencyCorrection/tags/PhotonEfficiencyCorrection-00-01-14 PhotonEfficiencyCorrection
+    
     # stop polarization
     svn co ${SVN3GEN}/StopPolarization/tags/StopPolarization-00-01-03 StopPolarization 
+
+    # METUtilies updated tag to deal with warnings about association map
+    svn co ${SVNOFF}/Reconstruction/MET/METUtilities/tags/METUtilities-00-02-18-01 METUtilities
+    
 }
 
 function checkout_packages_uci {
