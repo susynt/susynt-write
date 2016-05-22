@@ -50,13 +50,14 @@ function checkout_packages_external {
     local SVN3GEN="svn+ssh://svn.cern.ch/reps/atlasphys-susy/Physics/SUSY/Analyses/StopSbottom"
 
     cd ${PROD_DIR}
-    svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-07-51 SUSYTools
+    svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-07-53 SUSYTools
     
     # stop polarization
     svn co ${SVN3GEN}/StopPolarization/tags/StopPolarization-00-01-03 StopPolarization 
 
-    # METUtilies updated tag to deal with warnings about association map
-    svn co ${SVNOFF}/Reconstruction/MET/METUtilities/tags/METUtilities-00-02-18-01 METUtilities
+    # on top of SUSYTOols (c.f. SUSYTools/doc/packages.txt)
+    svn co ${SVNOFF}/Reconstruction/Jet/JetSubStructureUtils/tags/JetSubStructureUtils-00-02-19 JetSubStructureUtils
+
     
 }
 
@@ -66,7 +67,7 @@ function checkout_packages_uci {
     then
         echo "---------------------------------------------"
         tput setaf 2
-        echo " You are checking out the tags for the n0222"
+        echo " You are checking out the tags for the n0223"
         echo " production of SusyNt."
         tput sgr0
         echo "---------------------------------------------"
@@ -76,7 +77,7 @@ function checkout_packages_uci {
         echo " SusyNtuple and SusyCommon."
         tput setaf 1
         echo " If you mean to write SusyNt's from the   "
-        echo " n0222 production, please call this script"
+        echo " n0223 production, please call this script"
         echo " with the '--stable' cmd line option."
         tput sgr0
         echo "---------------------------------------------"
@@ -87,7 +88,7 @@ function checkout_packages_uci {
     cd SusyNtuple
     if [ "${dev_or_stable}" = "--stable" ]
     then
-        git checkout SusyNtuple-00-05-01  # tag n0222
+        git checkout SusyNtuple-00-05-02  # tag n0223
     else
         git checkout -b master origin/master
     fi
@@ -96,7 +97,7 @@ function checkout_packages_uci {
     cd SusyCommon
     if [ "${dev_or_stable}" = "--stable" ]
     then
-        git checkout SusyCommon-00-03-01 # tag n0222
+        git checkout SusyCommon-00-03-02 # tag n0223
     else
         git checkout -b master origin/master
     fi
