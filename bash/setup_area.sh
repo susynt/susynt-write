@@ -50,7 +50,7 @@ function checkout_packages_external {
     local SVN3GEN="svn+ssh://svn.cern.ch/reps/atlasphys-susy/Physics/SUSY/Analyses/StopSbottom"
 
     cd ${PROD_DIR}
-    svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-07-53 SUSYTools
+    svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-07-56 SUSYTools
     
     # stop polarization
     svn co ${SVN3GEN}/StopPolarization/tags/StopPolarization-00-01-03 StopPolarization 
@@ -61,6 +61,8 @@ function checkout_packages_external {
     # check this out to make it quite
     svn co ${SVNOFF}/PhysicsAnalysis/MuonID/MuonIDAnalysis/MuonEfficiencyCorrections/tags/MuonEfficiencyCorrections-03-02-05 MuonEfficiencyCorrections 
 
+    # check this out since b-tagging messed up bad with their timeline
+    svn co ${SVNOFF}/PhysicsAnalysis/JetTagging/JetTagPerformanceCalibration/xAODBTaggingEfficiency/tags/xAODBTaggingEfficiency-00-00-34 xAODBTaggingEfficiency
     
 }
 
