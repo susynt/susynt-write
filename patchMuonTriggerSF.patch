@@ -1,0 +1,13 @@
+Index: MuonEfficiencyCorrections/Root/MuonTriggerScaleFactors.cxx
+===================================================================
+--- MuonEfficiencyCorrections/Root/MuonTriggerScaleFactors.cxx	(revision 748954)
++++ MuonEfficiencyCorrections/Root/MuonTriggerScaleFactors.cxx	(working copy)
+@@ -206,7 +206,7 @@
+   {
+     TrigMuonEff::DataPeriod period = getDataPeriod(runNumber);
+     if(period == TrigMuonEff::period_undefined){
+-      ATH_MSG_WARNING("cannot find corresponding run period. Run should be AC=[266904,272531], D=[276073,276954], E=[278727,279928], F=[279932,280422], G=[280423,281075], H=[281130,281411], I=[281662,282482], J=[282625,284484]");
++      //ATH_MSG_WARNING("cannot find corresponding run period. Run should be AC=[266904,272531], D=[276073,276954], E=[278727,279928], F=[279932,280422], G=[280423,281075], H=[281130,281411], I=[281662,282482], J=[282625,284484]");
+ 
+       m_runNumber = 267639;
+       return CorrectionCode::Ok;

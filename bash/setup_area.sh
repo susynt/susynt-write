@@ -58,6 +58,9 @@ function checkout_packages_external {
     # on top of SUSYTOols (c.f. SUSYTools/doc/packages.txt)
     svn co ${SVNOFF}/Reconstruction/Jet/JetSubStructureUtils/tags/JetSubStructureUtils-00-02-19 JetSubStructureUtils
 
+    # check this out to make it quite
+    svn co ${SVNOFF}/PhysicsAnalysis/MuonID/MuonIDAnalysis/MuonEfficiencyCorrections/tags/MuonEfficiencyCorrections-03-02-05 MuonEfficiencyCorrections 
+
     
 }
 
@@ -128,6 +131,11 @@ function main {
     # patch SUSYTools to add photon cleaning decorators
     echo "Patching SUSYTools to include photon cleaning and ambiguity decorators"
     patch -p0 < patchPhotonDecoratorsSUSYTools.patch
+    # patch MuonTriggerSF tool
+    echo "Patching MuonTriggerSF tool to silence warnings from setting random run numbers"
+    echo "with lumi-calc files containing runs from data16 (muon trigger SF should"
+    echo " not be applied)"
+    patch -p0 < patchMuonTriggerSF.patch
 
     echo "Done                              -- `date`"
     echo "You can now go ahead and set-up the analysis release"
