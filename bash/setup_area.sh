@@ -72,7 +72,7 @@ function checkout_packages_uci {
     then
         echo "---------------------------------------------"
         tput setaf 2
-        echo " You are checking out the tags for the n0223"
+        echo " You are checking out the tags for the n0224"
         echo " production of SusyNt."
         tput sgr0
         echo "---------------------------------------------"
@@ -82,7 +82,7 @@ function checkout_packages_uci {
         echo " SusyNtuple and SusyCommon."
         tput setaf 1
         echo " If you mean to write SusyNt's from the   "
-        echo " n0223 production, please call this script"
+        echo " n0224 production, please call this script"
         echo " with the '--stable' cmd line option."
         tput sgr0
         echo "---------------------------------------------"
@@ -93,7 +93,7 @@ function checkout_packages_uci {
     cd SusyNtuple
     if [ "${dev_or_stable}" = "--stable" ]
     then
-        git checkout SusyNtuple-00-05-02  # tag n0223
+        git checkout SusyNtuple-00-05-03  # tag n0224
     else
         git checkout -b master origin/master
     fi
@@ -102,7 +102,7 @@ function checkout_packages_uci {
     cd SusyCommon
     if [ "${dev_or_stable}" = "--stable" ]
     then
-        git checkout SusyCommon-00-03-02 # tag n0223
+        git checkout SusyCommon-00-03-03 # tag n0224
     else
         git checkout -b master origin/master
     fi
