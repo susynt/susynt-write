@@ -50,20 +50,11 @@ function checkout_packages_external {
     local SVN3GEN="svn+ssh://svn.cern.ch/reps/atlasphys-susy/Physics/SUSY/Analyses/StopSbottom"
 
     cd ${PROD_DIR}
-    svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-07-56 SUSYTools
+    svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-07-78 SUSYTools
     
     # stop polarization
     svn co ${SVN3GEN}/StopPolarization/tags/StopPolarization-00-01-03 StopPolarization 
 
-    # on top of SUSYTOols (c.f. SUSYTools/doc/packages.txt)
-    svn co ${SVNOFF}/Reconstruction/Jet/JetSubStructureUtils/tags/JetSubStructureUtils-00-02-19 JetSubStructureUtils
-
-    # check this out to make it quite
-    svn co ${SVNOFF}/PhysicsAnalysis/MuonID/MuonIDAnalysis/MuonEfficiencyCorrections/tags/MuonEfficiencyCorrections-03-02-05 MuonEfficiencyCorrections 
-
-    # check this out since b-tagging messed up bad with their timeline
-    svn co ${SVNOFF}/PhysicsAnalysis/JetTagging/JetTagPerformanceCalibration/xAODBTaggingEfficiency/tags/xAODBTaggingEfficiency-00-00-34 xAODBTaggingEfficiency
-    
 }
 
 function checkout_packages_uci {
@@ -130,19 +121,19 @@ function main {
     checkout_packages_external
     checkout_packages_uci $*
 
-    # patch SUSYTools to add photon cleaning decorators
-    echo "Patching SUSYTools to include photon cleaning and ambiguity decorators"
-    patch -p0 < patchPhotonDecoratorsSUSYTools.patch
-    # patch MuonTriggerSF tool
-    echo "Patching MuonTriggerSF tool to silence warnings from setting random run numbers"
-    echo "with lumi-calc files containing runs from data16 (muon trigger SF should"
-    echo " not be applied)"
-    patch -p0 < patchMuonTriggerSF.patch
+    ## patch SUSYTools to add photon cleaning decorators
+    #echo "Patching SUSYTools to include photon cleaning and ambiguity decorators"
+    #patch -p0 < patchPhotonDecoratorsSUSYTools.patch
+    # patch to ignore grabbing of trigger SFs
+    #echo "Patching SUSYTools"
+    #echo " 1) to not grab muon trigger SFs (tools complain about 2016)"
+    #echo " 2) to add photon cleaning and ambiguity decorators"
+    #patch -p0 < patchSUSYToolsMuonTrigSF_photonDecorators.patch
 
-    echo "Done                              -- `date`"
-    echo "You can now go ahead and set-up the analysis release"
-    echo "and compile all packages by running:"
-    echo "source bash/setup_release.sh 2>&1 | tee compile.log"
+    #echo "Done                              -- `date`"
+    #echo "You can now go ahead and set-up the analysis release"
+    #echo "and compile all packages by running:"
+    #echo "source bash/setup_release.sh 2>&1 | tee compile.log"
 }
 
 main $*
