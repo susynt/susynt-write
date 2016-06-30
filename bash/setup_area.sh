@@ -50,7 +50,8 @@ function checkout_packages_external {
     local SVN3GEN="svn+ssh://svn.cern.ch/reps/atlasphys-susy/Physics/SUSY/Analyses/StopSbottom"
 
     cd ${PROD_DIR}
-    svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-07-78 SUSYTools
+    # SUSYTools for ABR 2.4.13
+    svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-07-82 SUSYTools
     
     # stop polarization
     svn co ${SVN3GEN}/StopPolarization/tags/StopPolarization-00-01-03 StopPolarization 
@@ -122,18 +123,14 @@ function main {
     checkout_packages_uci $*
 
     ## patch SUSYTools to add photon cleaning decorators
-    #echo "Patching SUSYTools to include photon cleaning and ambiguity decorators"
-    #patch -p0 < patchPhotonDecoratorsSUSYTools.patch
-    # patch to ignore grabbing of trigger SFs
-    #echo "Patching SUSYTools"
-    #echo " 1) to not grab muon trigger SFs (tools complain about 2016)"
-    #echo " 2) to add photon cleaning and ambiguity decorators"
-    #patch -p0 < patchSUSYToolsMuonTrigSF_photonDecorators.patch
+    echo "Patching SUSYTools to include photon cleaning and ambiguity decorators"
+    echo "and to ignore (set to one) muon trigger scale factors"
+    patch -p0 < patchMuonTrigSF_PhotonDecorators_ST.patch
 
-    #echo "Done                              -- `date`"
-    #echo "You can now go ahead and set-up the analysis release"
-    #echo "and compile all packages by running:"
-    #echo "source bash/setup_release.sh 2>&1 | tee compile.log"
+    echo "Done                              -- `date`"
+    echo "You can now go ahead and set-up the analysis release"
+    echo "and compile all packages by running:"
+    echo "source bash/setup_release.sh 2>&1 | tee compile.log"
 }
 
 main $*
