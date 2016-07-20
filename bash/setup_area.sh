@@ -50,8 +50,12 @@ function checkout_packages_external {
     local SVN3GEN="svn+ssh://svn.cern.ch/reps/atlasphys-susy/Physics/SUSY/Analyses/StopSbottom"
 
     cd ${PROD_DIR}
-    # SUSYTools for ABR 2.4.13
-    svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-07-82 SUSYTools
+    # SUSYTools for ABR 2.4.16
+    svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-07-90 SUSYTools
+
+    # SUSYTools/doc/packages.txt
+    svn co ${SVNOFF}/PhysicsAnalysis/ElectronPhotonID/PhotonEfficiencyCorrection/tags/PhotonEfficiencyCorrection-00-01-18 PhotonEfficiencyCorrection 
+    svn co ${SVNOFF}/PhysicsAnalysis/MuonID/MuonIDAnalysis/MuonMomentumCorrections/tags/MuonMomentumCorrections-01-00-35 MuonMomentumCorrections
     
     # stop polarization
     svn co ${SVN3GEN}/StopPolarization/tags/StopPolarization-00-01-03 StopPolarization 
@@ -64,7 +68,7 @@ function checkout_packages_uci {
     then
         echo "---------------------------------------------"
         tput setaf 2
-        echo " You are checking out the tags for the n0225"
+        echo " You are checking out the tags for the n0226"
         echo " production of SusyNt."
         tput sgr0
         echo "---------------------------------------------"
@@ -74,7 +78,7 @@ function checkout_packages_uci {
         echo " SusyNtuple and SusyCommon."
         tput setaf 1
         echo " If you mean to write SusyNt's from the   "
-        echo " n0225 production, please call this script"
+        echo " n0226 production, please call this script"
         echo " with the '--stable' cmd line option."
         tput sgr0
         echo "---------------------------------------------"
@@ -85,7 +89,7 @@ function checkout_packages_uci {
     cd SusyNtuple
     if [ "${dev_or_stable}" = "--stable" ]
     then
-        git checkout SusyNtuple-00-05-04  # tag n0225
+        git checkout SusyNtuple-00-05-04  # tag n0226
     else
         git checkout -b master origin/master
     fi
@@ -94,7 +98,7 @@ function checkout_packages_uci {
     cd SusyCommon
     if [ "${dev_or_stable}" = "--stable" ]
     then
-        git checkout SusyCommon-00-03-04 # tag n0225
+        git checkout SusyCommon-00-03-04 # tag n0226
     else
         git checkout -b master origin/master
     fi
@@ -124,8 +128,7 @@ function main {
 
     ## patch SUSYTools to add photon cleaning decorators
     echo "Patching SUSYTools to include photon cleaning and ambiguity decorators"
-    echo "and to ignore (set to one) muon trigger scale factors"
-    patch -p0 < patchMuonTrigSF_PhotonDecorators_ST.patch
+    patch -p0 < patchSTPhotonDecorators.patch
 
     echo "Done                              -- `date`"
     echo "You can now go ahead and set-up the analysis release"
