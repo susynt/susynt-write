@@ -1,0 +1,84 @@
+Index: SUSYTools/Root/SUSYObjDef_xAOD.cxx
+===================================================================
+--- SUSYTools/Root/SUSYObjDef_xAOD.cxx	(revision 773348)
++++ SUSYTools/Root/SUSYObjDef_xAOD.cxx	(working copy)
+@@ -113,6 +113,9 @@
+ 
+ static SG::AuxElement::Accessor<unsigned int> randomrunnumber("RandomRunNumber");
+ 
++static SG::AuxElement::Decorator<char> dec_photonPassCleaning("passCleaning");
++static SG::AuxElement::Decorator<char> dec_photonPassAmbiguity("passAmbiguity");
++
+ static SG::AuxElement::Decorator<int> dec_trigmatched("trigger_matched");
+ 
+ 
+@@ -2331,6 +2334,10 @@
+   dec_baseline(input) = false;
+   dec_isol(input) = false;
+ 
++  dec_photonPassCleaning(input) = false;
++  dec_photonPassAmbiguity(input) = false; 
++  if(m_egammaAmbiguityTool->accept( input )) dec_photonPassAmbiguity(input) = true;
++
+   // Author cuts needed according to https://twiki.cern.ch/twiki/bin/view/AtlasProtected/EGammaIdentificationRun2#Photon_authors
+   if ( !(input.author() & (xAOD::EgammaParameters::AuthorPhoton + xAOD::EgammaParameters::AuthorAmbiguous)) )
+     return StatusCode::SUCCESS;
+@@ -2355,6 +2362,7 @@
+   float ph_rphi = input.showerShapeValue(xAOD::EgammaParameters::Rphi);
+ 
+   if ( (ph_OQ & 134217728) != 0 && (ph_reta > 0.98 || ph_rphi > 1.0 || (ph_OQ & 67108864) != 0) ) return StatusCode::SUCCESS;
++  dec_photonPassCleaning(input) = true;
+ 
+   if (!isAtlfast() && !isData()) {
+     if ( m_electronPhotonShowerShapeFudgeTool->applyCorrection(input) != CP::CorrectionCode::Ok)
+@@ -2488,7 +2496,15 @@
+ 
+   const xAOD::Vertex* pv = this->GetPrimVtx();
+   double primvertex_z = pv ? pv->z() : 0;
+-  const xAOD::TrackParticle* track = input.primaryTrackParticle();
++  //const xAOD::TrackParticle* track = input.primaryTrackParticle();
++  const xAOD::TrackParticle* track;
++  if(input.muonType() == xAOD::Muon::SiliconAssociatedForwardMuon) {
++    track = input.trackParticle(xAOD::Muon::CombinedTrackParticle);
++    if(!track) return StatusCode::SUCCESS; // don't treat SAF muons without CB track further
++  }
++  else {
++    track = input.primaryTrackParticle();
++  }
+ 
+   //impact parameters (after applyCorrection() so to have the primaryTrack links restored in old buggy samples)
+   dec_z0sinTheta(input) = (track->z0() + track->vz() - primvertex_z) * TMath::Sin(input.p4().Theta());
+@@ -2838,7 +2854,15 @@
+ {
+   dec_bad(input) = false;
+ 
+-  const xAOD::TrackParticle* track = input.primaryTrackParticle();   //no need for SAF muon special treatment anymore!
++  //const xAOD::TrackParticle* track = input.primaryTrackParticle();   //no need for SAF muon special treatment anymore!
++  const xAOD::TrackParticle* track;
++  if(input.muonType() == xAOD::Muon::SiliconAssociatedForwardMuon) {
++    track = input.trackParticle(xAOD::Muon::CombinedTrackParticle);
++    if(!track) return StatusCode::SUCCESS; // don't treat SAF muons without CB track further
++  }
++  else {
++    track = input.primaryTrackParticle();
++  }
+ 
+   float Rerr = Amg::error(track->definingParametersCovMatrix(), 4) / fabs(track->qOverP());
+   ATH_MSG_VERBOSE( "Track momentum error (%): " << Rerr * 100 );
+@@ -2943,7 +2967,15 @@
+ {
+   dec_cosmic(input) = false;
+ 
+-  const xAOD::TrackParticle* track = input.primaryTrackParticle();
++  //const xAOD::TrackParticle* track = input.primaryTrackParticle();
++  const xAOD::TrackParticle* track;
++  if(input.muonType() == xAOD::Muon::SiliconAssociatedForwardMuon) {
++    track = input.trackParticle(xAOD::Muon::CombinedTrackParticle);
++    if(!track) return StatusCode::SUCCESS; // don't treat SAF muons without CB track further
++  }
++  else {
++    track = input.primaryTrackParticle();
++  }
+ 
+   double mu_d0 = track->d0();
+   const xAOD::Vertex* pv = this->GetPrimVtx();
