@@ -14,7 +14,7 @@ git clone git@github.com:susynt/susynt-write.git
 cd susynt-write
 git checkout nXXXX
 source bash/setup_area.sh --stable |tee install.log
-source bash/setup_release 2>&1 |tee compile.log
+source bash/setup_release.sh 2>&1 |tee compile.log
 ```
 
 The commands above will checkout and compile all the packages that are
