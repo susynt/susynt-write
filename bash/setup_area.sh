@@ -51,14 +51,14 @@ function checkout_packages_external {
 
     cd ${PROD_DIR}
     # SUSYTools for ABR 2.4.18
-    svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-07-96-02 SUSYTools
+    svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-08-14 SUSYTools
 
     # SUSYTools/doc/packages.txt
-    svn co ${SVNOFF}/Event/xAOD/xAODMissingET/tags/xAODMissingET-00-02-10 xAODMissingET
-    svn co ${SVNOFF}/Reconstruction/MET/METUtilities/tags/METUtilities-00-02-32 METUtilities
+    #svn co ${SVNOFF}/Event/xAOD/xAODMissingET/tags/xAODMissingET-00-02-10 xAODMissingET
+    #svn co ${SVNOFF}/Reconstruction/MET/METUtilities/tags/METUtilities-00-02-32 METUtilities
 
     # SUSYTools forgot about the power of ENUMS
-    svn co ${SVNOFF}/PhysicsAnalysis/ElectronPhotonID/ElectronPhotonFourMomentumCorrection/tags/ElectronPhotonFourMomentumCorrection-02-02-17 ElectronPhotonFourMomentumCorrection
+    #svn co ${SVNOFF}/PhysicsAnalysis/ElectronPhotonID/ElectronPhotonFourMomentumCorrection/tags/ElectronPhotonFourMomentumCorrection-02-02-17 ElectronPhotonFourMomentumCorrection
     
     # stop polarization
     svn co ${SVN3GEN}/StopPolarization/tags/StopPolarization-00-01-03 StopPolarization 
@@ -130,9 +130,9 @@ function main {
     checkout_packages_uci $*
 
     ## patch SUSYTools to add photon cleaning decorators
-    echo "Patching SUSYTools to include photon cleaning and ambiguity decorators"
-    echo "and safety checks for grabbing muon track particles"
-    patch -p0 < patchSTPhotonDecMuonTrack.patch
+    #echo "Patching SUSYTools to include photon cleaning and ambiguity decorators"
+    #echo "and safety checks for grabbing muon track particles"
+    #patch -p0 < patchSTPhotonDecMuonTrack.patch
 
     echo "Done                              -- `date`"
     echo "You can now go ahead and set-up the analysis release"
