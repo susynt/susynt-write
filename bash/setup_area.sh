@@ -137,6 +137,10 @@ function main {
     #echo "and safety checks for grabbing muon track particles"
     #patch -p0 < patchSTPhotonDecMuonTrack.patch
 
+    ## patch ElectronPhotonSelectorTools to include MVAUtils dependency for ChargeFlip TOol
+    echo "Patching ElectronPhotonSelectorTools to include MVAUtils dependency"
+    patch -p0 < patchAddMVAUtilsDep.patch
+
     echo "Done                              -- `date`"
     echo "You can now go ahead and set-up the analysis release"
     echo "and compile all packages by running:"
