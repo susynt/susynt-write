@@ -1,0 +1,53 @@
+Index: SUSYTools/Root/Photons.cxx
+===================================================================
+--- SUSYTools/Root/Photons.cxx	(revision 783382)
++++ SUSYTools/Root/Photons.cxx	(working copy)
+@@ -101,6 +101,10 @@
+   dec_baseline(input) = false;
+   dec_isol(input) = false;
+ 
++  dec_photonPassCleaning(input) = false;
++  dec_photonPassAmbiguity(input) = false;
++  if(m_egammaAmbiguityTool->accept( input )) dec_photonPassAmbiguity(input) = true;
++
+   // Author cuts needed according to https://twiki.cern.ch/twiki/bin/view/AtlasProtected/EGammaIdentificationRun2#Photon_authors
+   if ( !(input.author() & (xAOD::EgammaParameters::AuthorPhoton + xAOD::EgammaParameters::AuthorAmbiguous)) )
+     return StatusCode::SUCCESS;
+@@ -133,6 +137,7 @@
+     {
+       return StatusCode::SUCCESS;
+     }
++  dec_photonPassCleaning(input) = true;
+ 
+   if (!isAtlfast() && !isData()) {
+     if ( m_electronPhotonShowerShapeFudgeTool->applyCorrection(input) != CP::CorrectionCode::Ok)
+
+Index: SUSYTools/Root/SUSYObjDef_xAOD.cxx
+===================================================================
+--- SUSYTools/Root/SUSYObjDef_xAOD.cxx	(revision 783382)
++++ SUSYTools/Root/SUSYObjDef_xAOD.cxx	(working copy)
+@@ -303,7 +303,9 @@
+     acc_truthType("truthType"),
+     acc_truthOrigin("truthOrigin"),
+     acc_bkgTruthOrigin("bkgTruthOrigin"),
+-    randomrunnumber("RandomRunNumber")
++    randomrunnumber("RandomRunNumber"),
++    dec_photonPassCleaning("passCleaning"),
++    dec_photonPassAmbiguity("passAmbiguity")
+ {
+   //General settings
+   declareProperty( "DataSource", m_dataSource = Undefined );
+
+Index: SUSYTools/SUSYTools/SUSYObjDef_xAOD.h
+===================================================================
+--- SUSYTools/SUSYTools/SUSYObjDef_xAOD.h	(revision 783382)
++++ SUSYTools/SUSYTools/SUSYObjDef_xAOD.h	(working copy)
+@@ -657,6 +657,8 @@
+     SG::AuxElement::Accessor<int> acc_truthOrigin;
+     SG::AuxElement::Accessor<int> acc_bkgTruthOrigin;
+     SG::AuxElement::Accessor<unsigned int> randomrunnumber;
++    SG::AuxElement::Decorator<char> dec_photonPassCleaning;
++    SG::AuxElement::Decorator<char> dec_photonPassAmbiguity;
+ 
+   }; // Class SUSYObjDef_xAOD
+ 

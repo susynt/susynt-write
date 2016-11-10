@@ -140,6 +140,8 @@ function main {
     ## patch ElectronPhotonSelectorTools to include MVAUtils dependency for ChargeFlip TOol
     echo "Patching ElectronPhotonSelectorTools to include MVAUtils dependency"
     patch -p0 < patchAddMVAUtilsDep.patch
+    echo "Patching SUSYTools to include photon cleaning and ambiguity decorators"
+    patch -p0 < patchAddPhotonDecorators.patch
 
     echo "Done                              -- `date`"
     echo "You can now go ahead and set-up the analysis release"
