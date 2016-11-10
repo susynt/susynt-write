@@ -51,15 +51,18 @@ function checkout_packages_external {
 
     cd ${PROD_DIR}
     # SUSYTools for ABR 2.4.18
-    svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-08-14 SUSYTools
+    svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-08-20 SUSYTools
 
-    # SUSYTools/doc/packages.txt
-    #svn co ${SVNOFF}/Event/xAOD/xAODMissingET/tags/xAODMissingET-00-02-10 xAODMissingET
-    #svn co ${SVNOFF}/Reconstruction/MET/METUtilities/tags/METUtilities-00-02-32 METUtilities
-
-    # SUSYTools forgot about the power of ENUMS
-    #svn co ${SVNOFF}/PhysicsAnalysis/ElectronPhotonID/ElectronPhotonFourMomentumCorrection/tags/ElectronPhotonFourMomentumCorrection-02-02-17 ElectronPhotonFourMomentumCorrection
+    # checkout 2.4.22 package
+    svn co ${SVNOFF}/PhysicsAnalysis/ElectronPhotonID/ElectronPhotonSelectorTools/tags/ElectronPhotonSelectorTools-00-02-92-09 ElectronPhotonSelectorTools 
+    # export chargeflip tool from "private" tag
+    svn export ${SVNOFF}/PhysicsAnalysis/ElectronPhotonID/ElectronPhotonSelectorTools/branches/ElectronPhotonSelectorTools-00-02-92-branch/ElectronPhotonSelectorTools/AsgElectronChargeFlipTaggerTool.h ElectronPhotonSelectorTools/ElectronPhotonSelectorTools/AsgElectronChargeFlipTaggerTool.h 
+    svn export ${SVNOFF}/PhysicsAnalysis/ElectronPhotonID/ElectronPhotonSelectorTools/branches/ElectronPhotonSelectorTools-00-02-92-branch/Root/AsgElectronChargeFlipTaggerTool.cxx ElectronPhotonSelectorTools/Root/AsgElectronChargeFlipTaggerTool.cxx 
     
+    # SUSYTools/doc/packages.txt
+    svn co ${SVNOFF}/PhysicsAnalysis/MuonID/MuonIDAnalysis/MuonEfficiencyCorrections/tags/MuonEfficiencyCorrections-04-00-01 MuonEfficiencyCorrections
+    svn co ${SVNOFF}/PhysicsAnalysis/TopPhys/QuickAna/tags/QuickAna-00-01-22 QuickAna 
+
     # stop polarization
     svn co ${SVN3GEN}/StopPolarization/tags/StopPolarization-00-01-03 StopPolarization 
 
