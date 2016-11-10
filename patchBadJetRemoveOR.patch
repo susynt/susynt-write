@@ -1,0 +1,13 @@
+Index: SUSYTools/Root/Jets.cxx
+===================================================================
+--- SUSYTools/Root/Jets.cxx	(revision 783382)
++++ SUSYTools/Root/Jets.cxx	(working copy)
+@@ -369,7 +369,7 @@
+   bool SUSYObjDef_xAOD::IsBadJet(const xAOD::Jet& input)
+   {
+ 
+-    if ( !dec_passOR(input) ) return false;
++    //if ( !dec_passOR(input) ) return false;
+ 
+     float ptcut = 20e3;
+     bool  isPileup = !dec_passJvt(input);
