@@ -143,7 +143,7 @@ function main {
     echo "Patching SUSYTools to include photon cleaning and ambiguity decorators"
     patch -p0 < patchAddPhotonDecorators.patch
     echo "Patching SUSYTools to not require OR to flag bad jets"
-    patch -p0 patchBadJetRemoveOR.patch
+    patch -p0 < patchBadJetRemoveOR.patch
 
     echo "Done                              -- `date`"
     echo "You can now go ahead and set-up the analysis release"
