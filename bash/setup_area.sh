@@ -50,15 +50,17 @@ function checkout_packages_external {
     local SVN3GEN="svn+ssh://svn.cern.ch/reps/atlasphys-susy/Physics/SUSY/Analyses/StopSbottom"
 
     cd ${PROD_DIR}
-    # SUSYTools for ABR 2.4.18
-    svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-07-96-02 SUSYTools
+    # SUSYTools for ABR 2.4.23
+    svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-08-29 SUSYTools
 
-    # SUSYTools/doc/packages.txt
-    svn co ${SVNOFF}/Event/xAOD/xAODMissingET/tags/xAODMissingET-00-02-10 xAODMissingET
-    svn co ${SVNOFF}/Reconstruction/MET/METUtilities/tags/METUtilities-00-02-32 METUtilities
+    ## SUSYTools/doc/packages.txt
+    # none for ST 00-08-29
 
-    # SUSYTools forgot about the power of ENUMS
-    svn co ${SVNOFF}/PhysicsAnalysis/ElectronPhotonID/ElectronPhotonFourMomentumCorrection/tags/ElectronPhotonFourMomentumCorrection-02-02-17 ElectronPhotonFourMomentumCorrection
+    # checkout 2.4.23 package
+    svn co ${SVNOFF}/PhysicsAnalysis/ElectronPhotonID/ElectronPhotonSelectorTools/tags/ElectronPhotonSelectorTools-00-02-92-09 ElectronPhotonSelectorTools 
+    # export chargeflip tool from "private" tag
+    svn export ${SVNOFF}/PhysicsAnalysis/ElectronPhotonID/ElectronPhotonSelectorTools/branches/ElectronPhotonSelectorTools-00-02-92-branch/ElectronPhotonSelectorTools/AsgElectronChargeIDSelectorTool.h ElectronPhotonSelectorTools/ElectronPhotonSelectorTools/AsgElectronChargeIDSelectorTool.h 
+    svn export ${SVNOFF}/PhysicsAnalysis/ElectronPhotonID/ElectronPhotonSelectorTools/branches/ElectronPhotonSelectorTools-00-02-92-branch/Root/AsgElectronChargeIDSelectorTool.cxx ElectronPhotonSelectorTools/Root/AsgElectronChargeIDSelectorTool.cxx 
     
     # stop polarization
     svn co ${SVN3GEN}/StopPolarization/tags/StopPolarization-00-01-03 StopPolarization 
@@ -71,7 +73,7 @@ function checkout_packages_uci {
     then
         echo "---------------------------------------------"
         tput setaf 2
-        echo " You are checking out the tags for the n0228"
+        echo " You are checking out the tags for the n0230"
         echo " production of SusyNt."
         tput sgr0
         echo "---------------------------------------------"
@@ -81,7 +83,7 @@ function checkout_packages_uci {
         echo " SusyNtuple and SusyCommon."
         tput setaf 1
         echo " If you mean to write SusyNt's from the   "
-        echo " n0228 production, please call this script"
+        echo " n0230 production, please call this script"
         echo " with the '--stable' cmd line option."
         tput sgr0
         echo "---------------------------------------------"
@@ -92,7 +94,7 @@ function checkout_packages_uci {
     cd SusyNtuple
     if [ "${dev_or_stable}" = "--stable" ]
     then
-        git checkout SusyNtuple-00-05-06  # tag n0228
+        git checkout SusyNtuple-00-05-06  # tag n0230
     else
         git checkout -b master origin/master
     fi
@@ -101,7 +103,7 @@ function checkout_packages_uci {
     cd SusyCommon
     if [ "${dev_or_stable}" = "--stable" ]
     then
-        git checkout SusyCommon-00-03-06 # tag n0228
+        git checkout SusyCommon-00-03-06 # tag n0230
     else
         git checkout -b master origin/master
     fi
@@ -129,10 +131,10 @@ function main {
     checkout_packages_external
     checkout_packages_uci $*
 
-    ## patch SUSYTools to add photon cleaning decorators
-    echo "Patching SUSYTools to include photon cleaning and ambiguity decorators"
-    echo "and safety checks for grabbing muon track particles"
-    patch -p0 < patchSTPhotonDecMuonTrack.patch
+    ### patch SUSYTools to add photon cleaning decorators
+    #echo "Patching SUSYTools to include photon cleaning and ambiguity decorators"
+    #echo "and safety checks for grabbing muon track particles"
+    #patch -p0 < patchSTPhotonDecMuonTrack.patch
 
     echo "Done                              -- `date`"
     echo "You can now go ahead and set-up the analysis release"
