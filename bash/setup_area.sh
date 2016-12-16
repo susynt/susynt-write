@@ -131,11 +131,11 @@ function main {
     checkout_packages_external
     checkout_packages_uci $*
 
-    ### patch SUSYTools to add photon cleaning decorators
-    #echo "Patching SUSYTools to include photon cleaning and ambiguity decorators"
-    #echo "and safety checks for grabbing muon track particles"
-    #patch -p0 < patchSTPhotonDecMuonTrack.patch
-
+    ## patch ElectronPhotonSelectorTools to include MVAUtils dependency for ChargeFlip TOol
+    echo "Patching ElectronPhotonSelectorTools to include MVAUtils dependency"
+    patch -p0 < patchAddMVAUtilsDep.patch
+    echo "Patching SUSYTools to include photon decorators and not require OR for bad jet"
+    patch -p0 < patchSTBadJetORPhotonDec.patch
     echo "Done                              -- `date`"
     echo "You can now go ahead and set-up the analysis release"
     echo "and compile all packages by running:"
