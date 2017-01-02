@@ -84,22 +84,25 @@ function checkout_packages_uci {
     fi
     
     cd ${PROD_DIR}
-    git clone git@github.com:susynt/SusyNtuple.git SusyNtuple
-    cd SusyNtuple
+    #git clone git@github.com:susynt/SusyNtuple.git SusyNtuple
+    #cd SusyNtuple
     if [ "${dev_or_stable}" = "--stable" ]
     then
+        git clone -b master git@github.com:susynt/SusyNtuple.git SusyNtuple
+        cd SusyNtuple
         git checkout SusyNtuple-00-05-06  # tag n0230
+        cd -
     else
-        git checkout -b master origin/master
+        git clone -b master git@github.com:susynt/SusyNtuple.git SusyNtuple
     fi
-    cd -
-    git clone git@github.com:susynt/SusyCommon.git SusyCommon
-    cd SusyCommon
     if [ "${dev_or_stable}" = "--stable" ]
     then
+        git clone -b master git@github.com:susynt/SusyCommon.git SusyCommon
+        cd SusyCommon
         git checkout SusyCommon-00-03-06 # tag n0230
+        cd -
     else
-        git checkout -b master origin/master
+        git clone -b master git@github.com:susynt/SusyCommon.git SusyCommon
     fi
     cd -
 }
@@ -130,8 +133,6 @@ function main {
     echo "  - to not enforce OR for bad jet definition"
     echo "  - add boolean to getCorrectedMu whether to include DataScaleFactor"
     patch -p0 < patchSTBadJetORPhotonDecPRWDataSF.patch
-    #echo "Patching SUSYTools to include photon decorators and not require OR for bad jet"
-    #patch -p0 < patchSTBadJetORPhotonDec.patch
     echo "Done                              -- `date`"
     echo "You can now go ahead and set-up the analysis release"
     echo "and compile all packages by running:"
