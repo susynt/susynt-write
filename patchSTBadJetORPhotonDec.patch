@@ -1,6 +1,6 @@
 Index: SUSYTools/Root/Jets.cxx
 ===================================================================
---- SUSYTools/Root/Jets.cxx	(revision 788374)
+--- SUSYTools/Root/Jets.cxx	(revision 791265)
 +++ SUSYTools/Root/Jets.cxx	(working copy)
 @@ -369,7 +369,7 @@
    bool SUSYObjDef_xAOD::IsBadJet(const xAOD::Jet& input)
@@ -13,9 +13,9 @@ Index: SUSYTools/Root/Jets.cxx
      bool  isPileup = !dec_passJvt(input);
 Index: SUSYTools/Root/SUSYObjDef_xAOD.cxx
 ===================================================================
---- SUSYTools/Root/SUSYObjDef_xAOD.cxx	(revision 788374)
+--- SUSYTools/Root/SUSYObjDef_xAOD.cxx	(revision 791265)
 +++ SUSYTools/Root/SUSYObjDef_xAOD.cxx	(working copy)
-@@ -304,7 +304,9 @@
+@@ -305,7 +305,9 @@
      acc_truthType("truthType"),
      acc_truthOrigin("truthOrigin"),
      acc_bkgTruthOrigin("bkgTruthOrigin"),
@@ -28,25 +28,20 @@ Index: SUSYTools/Root/SUSYObjDef_xAOD.cxx
    declareProperty( "DataSource", m_dataSource = Undefined );
 Index: SUSYTools/Root/Photons.cxx
 ===================================================================
---- SUSYTools/Root/Photons.cxx	(revision 788374)
+--- SUSYTools/Root/Photons.cxx	(revision 791265)
 +++ SUSYTools/Root/Photons.cxx	(working copy)
-@@ -101,10 +101,15 @@
+@@ -101,6 +101,10 @@
    dec_baseline(input) = false;
    dec_isol(input) = false;
  
 +  dec_photonPassCleaning(input) = false;
 +  dec_photonPassAmbiguity(input) = false;
-+  if(m_egammaAmbiguityTool->accept( input )) dec_photonPassAmbiguity(input) = true;
++  if(m_egammaAmbiguityTool->accept( input )) dec_photonPassAmbiguity(input) = true; 
 +
    // Author cuts needed according to https://twiki.cern.ch/twiki/bin/view/AtlasProtected/EGammaIdentificationRun2#Photon_authors
    if ( !(input.author() & (xAOD::EgammaParameters::AuthorPhoton + xAOD::EgammaParameters::AuthorAmbiguous)) )
      return StatusCode::SUCCESS;
- 
-+
-   if (m_egammaCalibTool->applyCorrection(input)  != CP::CorrectionCode::Ok)
-     ATH_MSG_ERROR("FillPhoton: EgammaCalibTool applyCorrection failed");
- 
-@@ -134,6 +139,8 @@
+@@ -134,6 +138,8 @@
        return StatusCode::SUCCESS;
      }
  
@@ -57,9 +52,9 @@ Index: SUSYTools/Root/Photons.cxx
        ATH_MSG_ERROR("FillPhoton - fudge tool: applyCorrection failed");
 Index: SUSYTools/SUSYTools/SUSYObjDef_xAOD.h
 ===================================================================
---- SUSYTools/SUSYTools/SUSYObjDef_xAOD.h	(revision 788374)
+--- SUSYTools/SUSYTools/SUSYObjDef_xAOD.h	(revision 791265)
 +++ SUSYTools/SUSYTools/SUSYObjDef_xAOD.h	(working copy)
-@@ -681,6 +681,8 @@
+@@ -684,6 +684,8 @@
      SG::AuxElement::Accessor<int> acc_truthOrigin;
      SG::AuxElement::Accessor<int> acc_bkgTruthOrigin;
      SG::AuxElement::Accessor<unsigned int> randomrunnumber;

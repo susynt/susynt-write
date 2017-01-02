@@ -51,17 +51,11 @@ function checkout_packages_external {
 
     cd ${PROD_DIR}
     # SUSYTools for ABR 2.4.23
-    svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-08-29 SUSYTools
+    svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-08-33 SUSYTools
 
     ## SUSYTools/doc/packages.txt
-    # none for ST 00-08-29
+    svn co ${SVNOFF}/PhysicsAnalysis/MuonID/MuonIDAnalysis/MuonEfficiencyCorrections/tags/MuonEfficiencyCorrections-04-00-05 MuonEfficiencyCorrections
 
-    # checkout 2.4.23 package
-    svn co ${SVNOFF}/PhysicsAnalysis/ElectronPhotonID/ElectronPhotonSelectorTools/tags/ElectronPhotonSelectorTools-00-02-92-09 ElectronPhotonSelectorTools 
-    # export chargeflip tool from "private" tag
-    svn export ${SVNOFF}/PhysicsAnalysis/ElectronPhotonID/ElectronPhotonSelectorTools/branches/ElectronPhotonSelectorTools-00-02-92-branch/ElectronPhotonSelectorTools/AsgElectronChargeIDSelectorTool.h ElectronPhotonSelectorTools/ElectronPhotonSelectorTools/AsgElectronChargeIDSelectorTool.h 
-    svn export ${SVNOFF}/PhysicsAnalysis/ElectronPhotonID/ElectronPhotonSelectorTools/branches/ElectronPhotonSelectorTools-00-02-92-branch/Root/AsgElectronChargeIDSelectorTool.cxx ElectronPhotonSelectorTools/Root/AsgElectronChargeIDSelectorTool.cxx 
-    
     # stop polarization
     svn co ${SVN3GEN}/StopPolarization/tags/StopPolarization-00-01-03 StopPolarization 
 
@@ -131,11 +125,13 @@ function main {
     checkout_packages_external
     checkout_packages_uci $*
 
-    ## patch ElectronPhotonSelectorTools to include MVAUtils dependency for ChargeFlip TOol
-    echo "Patching ElectronPhotonSelectorTools to include MVAUtils dependency"
-    patch -p0 < patchAddMVAUtilsDep.patch
-    echo "Patching SUSYTools to include photon decorators and not require OR for bad jet"
-    patch -p0 < patchSTBadJetORPhotonDec.patch
+    echo "Patching SUSYTools to include:"
+    echo "  - photon decorators"
+    echo "  - to not enforce OR for bad jet definition"
+    echo "  - add boolean to getCorrectedMu whether to include DataScaleFactor"
+    patch -p0 < patchSTBadJetORPhotonDecPRWDataSF.patch
+    #echo "Patching SUSYTools to include photon decorators and not require OR for bad jet"
+    #patch -p0 < patchSTBadJetORPhotonDec.patch
     echo "Done                              -- `date`"
     echo "You can now go ahead and set-up the analysis release"
     echo "and compile all packages by running:"
