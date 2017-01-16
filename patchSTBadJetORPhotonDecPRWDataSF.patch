@@ -1,10 +1,10 @@
 Index: SUSYTools/Root/Jets.cxx
 ===================================================================
---- SUSYTools/Root/Jets.cxx	(revision 791265)
+--- SUSYTools/Root/Jets.cxx	(revision 792274)
 +++ SUSYTools/Root/Jets.cxx	(working copy)
-@@ -369,7 +369,7 @@
-   bool SUSYObjDef_xAOD::IsBadJet(const xAOD::Jet& input)
-   {
+@@ -371,7 +371,7 @@
+ 
+   bool SUSYObjDef_xAOD::IsBadJet(const xAOD::Jet& input) const {
  
 -    if ( !dec_passOR(input) ) return false;
 +    //if ( !dec_passOR(input) ) return false;
@@ -13,20 +13,21 @@ Index: SUSYTools/Root/Jets.cxx
      bool  isPileup = !dec_passJvt(input);
 Index: SUSYTools/Root/SUSYObjDef_xAOD.cxx
 ===================================================================
---- SUSYTools/Root/SUSYObjDef_xAOD.cxx	(revision 791265)
+--- SUSYTools/Root/SUSYObjDef_xAOD.cxx	(revision 792274)
 +++ SUSYTools/Root/SUSYObjDef_xAOD.cxx	(working copy)
-@@ -305,7 +305,9 @@
+@@ -306,7 +306,10 @@
      acc_truthType("truthType"),
      acc_truthOrigin("truthOrigin"),
      acc_bkgTruthOrigin("bkgTruthOrigin"),
 -    randomrunnumber("RandomRunNumber")
 +    randomrunnumber("RandomRunNumber"),
 +    dec_photonPassCleaning("passCleaning"),
-+    dec_photonPassAmbiguity("passAmbiguity")
++    dec_photonPassAmbiguity("passAmbiguity") 
++    
  {
    //General settings
    declareProperty( "DataSource", m_dataSource = Undefined );
-@@ -2057,11 +2059,11 @@
+@@ -2056,11 +2059,11 @@
    return m_prwTool->getDataWeight( *evtInfo, trig );
  }
  
@@ -42,7 +43,7 @@ Index: SUSYTools/Root/SUSYObjDef_xAOD.cxx
  double SUSYObjDef_xAOD::GetSumOfWeights(int channel) {
 Index: SUSYTools/Root/Photons.cxx
 ===================================================================
---- SUSYTools/Root/Photons.cxx	(revision 791265)
+--- SUSYTools/Root/Photons.cxx	(revision 792274)
 +++ SUSYTools/Root/Photons.cxx	(working copy)
 @@ -101,6 +101,10 @@
    dec_baseline(input) = false;
@@ -50,7 +51,7 @@ Index: SUSYTools/Root/Photons.cxx
  
 +  dec_photonPassCleaning(input) = false;
 +  dec_photonPassAmbiguity(input) = false;
-+  if(m_egammaAmbiguityTool->accept( input )) dec_photonPassAmbiguity(input) = true; 
++  if(m_egammaAmbiguityTool->accept( input )) dec_photonPassAmbiguity(input) = true;
 +
    // Author cuts needed according to https://twiki.cern.ch/twiki/bin/view/AtlasProtected/EGammaIdentificationRun2#Photon_authors
    if ( !(input.author() & (xAOD::EgammaParameters::AuthorPhoton + xAOD::EgammaParameters::AuthorAmbiguous)) )
@@ -66,7 +67,7 @@ Index: SUSYTools/Root/Photons.cxx
        ATH_MSG_ERROR("FillPhoton - fudge tool: applyCorrection failed");
 Index: SUSYTools/SUSYTools/ISUSYObjDef_xAODTool.h
 ===================================================================
---- SUSYTools/SUSYTools/ISUSYObjDef_xAODTool.h	(revision 791265)
+--- SUSYTools/SUSYTools/ISUSYObjDef_xAODTool.h	(revision 792274)
 +++ SUSYTools/SUSYTools/ISUSYObjDef_xAODTool.h	(working copy)
 @@ -303,7 +303,7 @@
  
@@ -79,18 +80,18 @@ Index: SUSYTools/SUSYTools/ISUSYObjDef_xAODTool.h
      
 Index: SUSYTools/SUSYTools/SUSYObjDef_xAOD.h
 ===================================================================
---- SUSYTools/SUSYTools/SUSYObjDef_xAOD.h	(revision 791265)
+--- SUSYTools/SUSYTools/SUSYObjDef_xAOD.h	(revision 792274)
 +++ SUSYTools/SUSYTools/SUSYObjDef_xAOD.h	(working copy)
-@@ -287,7 +287,7 @@
+@@ -290,7 +290,7 @@
  
-     float GetDataWeight(const std::string&);
+     float GetDataWeight(const std::string&) override final;
  
--    float GetCorrectedAverageInteractionsPerCrossing();
-+    float GetCorrectedAverageInteractionsPerCrossing(bool includeDataSF=false);
+-    float GetCorrectedAverageInteractionsPerCrossing() override final;
++    float GetCorrectedAverageInteractionsPerCrossing(bool includeDataSF=false) override final;
  
-     double GetSumOfWeights(int channel);
+     double GetSumOfWeights(int channel) override final;
  
-@@ -684,6 +684,8 @@
+@@ -689,6 +689,8 @@
      SG::AuxElement::Accessor<int> acc_truthOrigin;
      SG::AuxElement::Accessor<int> acc_bkgTruthOrigin;
      SG::AuxElement::Accessor<unsigned int> randomrunnumber;
