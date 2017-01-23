@@ -130,6 +130,7 @@ function main {
     checkout_packages_external
     checkout_packages_uci $*
 
+    cd ${PROD_DIR}
     echo "Patching SUSYTools to include:"
     echo "  - photon decorators"
     echo "  - to not enforce OR for bad jet definition"
