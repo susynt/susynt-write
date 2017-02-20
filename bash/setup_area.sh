@@ -51,12 +51,10 @@ function checkout_packages_external {
 
     cd ${PROD_DIR}
     # SUSYTools for ABR 2.4.24
-    svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-08-35 SUSYTools
+    svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-08-53 SUSYTools
 
-    ### SUSYTools/doc/packages.txt
-    svn co ${SVNOFF}/Reconstruction/Jet/JetUncertainties/tags/JetUncertainties-00-09-53 JetUncertainties 
-    svn co ${SVNOFF}/Reconstruction/MET/METUtilities/tags/METUtilities-00-02-45 METUtilities
-    svn co ${SVNOFF}/PhysicsAnalysis/AnalysisCommon/IsolationSelection/tags/IsolationSelection-00-06-02 IsolationSelection
+    # TauAnalysisTools has a bug in ABR 2.4.28 -- check it out to apply local fix
+    svn co ${SVNOFF}/PhysicsAnalysis/TauID/TauAnalysisTools/tags/TauAnalysisTools-00-02-43 TauAnalysisTools
 
     # stop polarization
     svn co ${SVN3GEN}/StopPolarization/tags/StopPolarization-00-01-03 StopPolarization 
@@ -131,11 +129,12 @@ function main {
     checkout_packages_uci $*
 
     cd ${PROD_DIR}
-    echo "Patching SUSYTools to include:"
-    echo "  - photon decorators"
-    echo "  - to not enforce OR for bad jet definition"
-    echo "  - add boolean to getCorrectedMu whether to include DataScaleFactor"
-    patch -p0 < patchSTBadJetORPhotonDecPRWDataSF.patch
+    echo "NOT APPLYING SUSYTOOLS PATCHES"
+    #echo "Patching SUSYTools to include:"
+    #echo "  - photon decorators"
+    #echo "  - to not enforce OR for bad jet definition"
+    #echo "  - add boolean to getCorrectedMu whether to include DataScaleFactor"
+    #patch -p0 < patchSTBadJetORPhotonDecPRWDataSF.patch
     echo "Done                              -- `date`"
     echo "You can now go ahead and set-up the analysis release"
     echo "and compile all packages by running:"
