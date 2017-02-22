@@ -50,8 +50,8 @@ function checkout_packages_external {
     local SVN3GEN="svn+ssh://svn.cern.ch/reps/atlasphys-susy/Physics/SUSY/Analyses/StopSbottom"
 
     cd ${PROD_DIR}
-    # SUSYTools for ABR 2.4.24
-    svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-08-53 SUSYTools
+    # SUSYTools for ABR 2.4.28
+    svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-08-54 SUSYTools
 
     # stop polarization
     svn co ${SVN3GEN}/StopPolarization/tags/StopPolarization-00-01-03 StopPolarization 
