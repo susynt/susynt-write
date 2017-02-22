@@ -1,8 +1,8 @@
 Index: SUSYTools/Root/Jets.cxx
 ===================================================================
---- SUSYTools/Root/Jets.cxx	(revision 797999)
+--- SUSYTools/Root/Jets.cxx	(revision 798290)
 +++ SUSYTools/Root/Jets.cxx	(working copy)
-@@ -413,7 +413,7 @@
+@@ -422,7 +422,7 @@
  
    bool SUSYObjDef_xAOD::IsBadJet(const xAOD::Jet& input) const {
  
@@ -11,7 +11,7 @@ Index: SUSYTools/Root/Jets.cxx
  
      float ptcut = 20e3;
      bool  isPileup = !acc_passJvt(input);
-@@ -550,7 +550,8 @@
+@@ -559,7 +559,8 @@
      ConstDataVector<xAOD::JetContainer> jvtjets(SG::VIEW_ELEMENTS);
      for (const auto& jet : *jets) {
        // Only jets that were good for every cut except JVT
@@ -23,9 +23,9 @@ Index: SUSYTools/Root/Jets.cxx
      }
 Index: SUSYTools/Root/SUSYObjDef_xAOD.cxx
 ===================================================================
---- SUSYTools/Root/SUSYObjDef_xAOD.cxx	(revision 797999)
+--- SUSYTools/Root/SUSYObjDef_xAOD.cxx	(revision 798290)
 +++ SUSYTools/Root/SUSYObjDef_xAOD.cxx	(working copy)
-@@ -2139,11 +2139,11 @@
+@@ -2137,11 +2137,11 @@
    return m_prwTool->getDataWeight( *evtInfo, trig );
  }
  
@@ -41,7 +41,7 @@ Index: SUSYTools/Root/SUSYObjDef_xAOD.cxx
  double SUSYObjDef_xAOD::GetSumOfWeights(int channel) {
 Index: SUSYTools/Root/Photons.cxx
 ===================================================================
---- SUSYTools/Root/Photons.cxx	(revision 797999)
+--- SUSYTools/Root/Photons.cxx	(revision 798290)
 +++ SUSYTools/Root/Photons.cxx	(working copy)
 @@ -102,6 +102,10 @@
    dec_selected(input) = 0;
@@ -65,7 +65,7 @@ Index: SUSYTools/Root/Photons.cxx
        ATH_MSG_ERROR("FillPhoton - fudge tool: applyCorrection failed");
 Index: SUSYTools/SUSYTools/ISUSYObjDef_xAODTool.h
 ===================================================================
---- SUSYTools/SUSYTools/ISUSYObjDef_xAODTool.h	(revision 797999)
+--- SUSYTools/SUSYTools/ISUSYObjDef_xAODTool.h	(revision 798290)
 +++ SUSYTools/SUSYTools/ISUSYObjDef_xAODTool.h	(working copy)
 @@ -304,7 +304,7 @@
  
@@ -78,7 +78,7 @@ Index: SUSYTools/SUSYTools/ISUSYObjDef_xAODTool.h
      
 Index: SUSYTools/SUSYTools/SUSYObjDef_xAOD.h
 ===================================================================
---- SUSYTools/SUSYTools/SUSYObjDef_xAOD.h	(revision 797999)
+--- SUSYTools/SUSYTools/SUSYObjDef_xAOD.h	(revision 798290)
 +++ SUSYTools/SUSYTools/SUSYObjDef_xAOD.h	(working copy)
 @@ -294,7 +294,7 @@
  
@@ -101,14 +101,3 @@ Index: SUSYTools/SUSYTools/SUSYObjDef_xAOD.h
  } // namespace ST
  
  
-Index: SUSYTools/data/SUSYTools_Default.conf
-===================================================================
---- SUSYTools/data/SUSYTools_Default.conf	(revision 797999)
-+++ SUSYTools/data/SUSYTools_Default.conf	(working copy)
-@@ -134,4 +134,4 @@
- Ele.TriggerSFStringDi: DI_E_2015_e12_lhloose_L1EM10VH_2016_e17_lhvloose_nod0
- Ele.TriggerSFStringMixedLepton: DI_E_2015_e17_lhloose_2016_e17_lhloose
- #
--StrictConfigCheck: true 
-\ No newline at end of file
-+StrictConfigCheck: true 
