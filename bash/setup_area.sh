@@ -53,6 +53,10 @@ function checkout_packages_external {
     # SUSYTools for ABR 2.4.28
     svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-08-54 SUSYTools
 
+    # from SUSYTools/doc/packages.txt
+    svn co ${SVNOFF}/PhysicsAnalysis/ElectronPhotonID/ElectronEfficiencyCorrection/tags/ElectronEfficiencyCorrection-00-01-95 ElectronEfficiencyCorrection
+    svn co ${SVNOFF}/Reconstruction/Jet/JetUncertainties/tags/JetUncertainties-00-09-63 JetUncertainties
+
     # stop polarization
     svn co ${SVN3GEN}/StopPolarization/tags/StopPolarization-00-01-03 StopPolarization 
 
@@ -96,7 +100,7 @@ function checkout_packages_uci {
     then
         git clone -b master git@github.com:susynt/SusyCommon.git SusyCommon
         cd SusyCommon
-        git checkout SusyCommon-00-04-01 # tag n0232
+        git checkout SusyCommon-00-04-02 # tag n0232
         cd -
     else
         git clone -b master git@github.com:susynt/SusyCommon.git SusyCommon
