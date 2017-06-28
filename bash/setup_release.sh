@@ -8,7 +8,7 @@ echo "Setup up ATLAS soft"
 export ATLAS_LOCAL_ROOT_BASE="/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase"
 source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh
 
-release="Base,2.4.24"
+release="Base,2.4.32"
 
 setupATLAS
 lsetup "rcsetup -u"
