@@ -1,0 +1,103 @@
+Index: SUSYTools/Root/Jets.cxx
+===================================================================
+--- SUSYTools/Root/Jets.cxx	(revision 806579)
++++ SUSYTools/Root/Jets.cxx	(working copy)
+@@ -423,7 +423,7 @@
+ 
+   bool SUSYObjDef_xAOD::IsBadJet(const xAOD::Jet& input) const {
+ 
+-    if ( !acc_passOR(input) ) return false;
++    //if ( !acc_passOR(input) ) return false;
+ 
+     float ptcut = 20e3;
+     bool  isPileup = !acc_passJvt(input);
+@@ -560,7 +560,8 @@
+     ConstDataVector<xAOD::JetContainer> jvtjets(SG::VIEW_ELEMENTS);
+     for (const auto& jet : *jets) {
+       // Only jets that were good for every cut except JVT
+-      if (acc_signal_less_JVT(*jet) && acc_passOR(*jet)) {
++      //if (acc_signal_less_JVT(*jet) && acc_passOR(*jet)) {
++      if(true) { // dantrim
+         jvtjets.push_back(jet);
+       }
+     }
+Index: SUSYTools/Root/SUSYObjDef_xAOD.cxx
+===================================================================
+--- SUSYTools/Root/SUSYObjDef_xAOD.cxx	(revision 806579)
++++ SUSYTools/Root/SUSYObjDef_xAOD.cxx	(working copy)
+@@ -2130,11 +2130,11 @@
+   return m_prwTool->getDataWeight( *evtInfo, trig );
+ }
+ 
+-float SUSYObjDef_xAOD::GetCorrectedAverageInteractionsPerCrossing() {
++float SUSYObjDef_xAOD::GetCorrectedAverageInteractionsPerCrossing(bool includeDataSF) {
+ 
+   const xAOD::EventInfo* evtInfo = 0;
+   ATH_CHECK( evtStore()->retrieve( evtInfo, "EventInfo" ) );
+-  return m_prwTool->getCorrectedMu( *evtInfo );
++  return m_prwTool->getCorrectedMu( *evtInfo, includeDataSF );
+ }
+ 
+ double SUSYObjDef_xAOD::GetSumOfWeights(int channel) {
+Index: SUSYTools/Root/Photons.cxx
+===================================================================
+--- SUSYTools/Root/Photons.cxx	(revision 806579)
++++ SUSYTools/Root/Photons.cxx	(working copy)
+@@ -105,6 +105,10 @@
+   dec_selected(input) = 0;
+   dec_isol(input) = false;
+ 
++  dec_photonPassCleaning(input) = false;
++  dec_photonPassAmbiguity(input) = false;
++  if(m_egammaAmbiguityTool->accept( input )) dec_photonPassAmbiguity(input) = true;
++
+   // Author cuts needed according to https://twiki.cern.ch/twiki/bin/view/AtlasProtected/EGammaIdentificationRun2#Photon_authors
+   if ( !(input.author() & (xAOD::EgammaParameters::AuthorPhoton + xAOD::EgammaParameters::AuthorAmbiguous)) )
+     return StatusCode::SUCCESS;
+@@ -135,6 +139,8 @@
+     return StatusCode::SUCCESS;
+   }
+ 
++  dec_photonPassCleaning(input) = true;
++
+   if (!isAtlfast() && !isData()) {
+     if ( m_electronPhotonShowerShapeFudgeTool->applyCorrection(input) != CP::CorrectionCode::Ok)
+       ATH_MSG_ERROR("FillPhoton - fudge tool: applyCorrection failed");
+Index: SUSYTools/SUSYTools/ISUSYObjDef_xAODTool.h
+===================================================================
+--- SUSYTools/SUSYTools/ISUSYObjDef_xAODTool.h	(revision 806579)
++++ SUSYTools/SUSYTools/ISUSYObjDef_xAODTool.h	(working copy)
+@@ -304,7 +304,7 @@
+ 
+     virtual float GetDataWeight(const std::string&) = 0;
+  
+-    virtual float GetCorrectedAverageInteractionsPerCrossing() = 0;
++    virtual float GetCorrectedAverageInteractionsPerCrossing(bool includeDataSF) = 0;
+ 
+     virtual double GetSumOfWeights(int channel) = 0;
+     
+Index: SUSYTools/SUSYTools/SUSYObjDef_xAOD.h
+===================================================================
+--- SUSYTools/SUSYTools/SUSYObjDef_xAOD.h	(revision 806579)
++++ SUSYTools/SUSYTools/SUSYObjDef_xAOD.h	(working copy)
+@@ -293,7 +293,7 @@
+ 
+     float GetDataWeight(const std::string&) override final;
+ 
+-    float GetCorrectedAverageInteractionsPerCrossing() override final;
++    float GetCorrectedAverageInteractionsPerCrossing(bool includeDataSF=false) override final;
+ 
+     double GetSumOfWeights(int channel) override final;
+ 
+@@ -712,6 +712,11 @@
+   const static SG::AuxElement::ConstAccessor<int> acc_bkgTruthOrigin("bkgTruthOrigin");
+   const static SG::AuxElement::ConstAccessor<unsigned int> randomrunnumber("RandomRunNumber");
+ 
++  const static SG::AuxElement::ConstAccessor<char> acc_photonPassCleaning("passCleaning");
++  const static SG::AuxElement::ConstAccessor<char> acc_photonPassAmbiguity("passAmbiguity");
++  const static SG::AuxElement::Decorator<char> dec_photonPassCleaning("passCleaning");
++  const static SG::AuxElement::Decorator<char> dec_photonPassAmbiguity("passAmbiguity");
++
+ } // namespace ST
+ 
+ 
