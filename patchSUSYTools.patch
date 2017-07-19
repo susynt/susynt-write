@@ -1,6 +1,6 @@
 Index: SUSYTools/Root/Jets.cxx
 ===================================================================
---- SUSYTools/Root/Jets.cxx	(revision 806579)
+--- SUSYTools/Root/Jets.cxx	(revision 808461)
 +++ SUSYTools/Root/Jets.cxx	(working copy)
 @@ -423,7 +423,7 @@
  
@@ -23,7 +23,7 @@ Index: SUSYTools/Root/Jets.cxx
      }
 Index: SUSYTools/Root/SUSYObjDef_xAOD.cxx
 ===================================================================
---- SUSYTools/Root/SUSYObjDef_xAOD.cxx	(revision 806579)
+--- SUSYTools/Root/SUSYObjDef_xAOD.cxx	(revision 808461)
 +++ SUSYTools/Root/SUSYObjDef_xAOD.cxx	(working copy)
 @@ -2130,11 +2130,11 @@
    return m_prwTool->getDataWeight( *evtInfo, trig );
@@ -41,7 +41,7 @@ Index: SUSYTools/Root/SUSYObjDef_xAOD.cxx
  double SUSYObjDef_xAOD::GetSumOfWeights(int channel) {
 Index: SUSYTools/Root/Photons.cxx
 ===================================================================
---- SUSYTools/Root/Photons.cxx	(revision 806579)
+--- SUSYTools/Root/Photons.cxx	(revision 808461)
 +++ SUSYTools/Root/Photons.cxx	(working copy)
 @@ -105,6 +105,10 @@
    dec_selected(input) = 0;
@@ -54,18 +54,17 @@ Index: SUSYTools/Root/Photons.cxx
    // Author cuts needed according to https://twiki.cern.ch/twiki/bin/view/AtlasProtected/EGammaIdentificationRun2#Photon_authors
    if ( !(input.author() & (xAOD::EgammaParameters::AuthorPhoton + xAOD::EgammaParameters::AuthorAmbiguous)) )
      return StatusCode::SUCCESS;
-@@ -135,6 +139,8 @@
+@@ -134,6 +138,7 @@
+        ( m_photonAllowLate && !PhotonSelectorHelpers::passOQqualitydelayed(&input)) ){
      return StatusCode::SUCCESS;
    }
- 
 +  dec_photonPassCleaning(input) = true;
-+
+ 
    if (!isAtlfast() && !isData()) {
      if ( m_electronPhotonShowerShapeFudgeTool->applyCorrection(input) != CP::CorrectionCode::Ok)
-       ATH_MSG_ERROR("FillPhoton - fudge tool: applyCorrection failed");
 Index: SUSYTools/SUSYTools/ISUSYObjDef_xAODTool.h
 ===================================================================
---- SUSYTools/SUSYTools/ISUSYObjDef_xAODTool.h	(revision 806579)
+--- SUSYTools/SUSYTools/ISUSYObjDef_xAODTool.h	(revision 808461)
 +++ SUSYTools/SUSYTools/ISUSYObjDef_xAODTool.h	(working copy)
 @@ -304,7 +304,7 @@
  
@@ -78,7 +77,7 @@ Index: SUSYTools/SUSYTools/ISUSYObjDef_xAODTool.h
      
 Index: SUSYTools/SUSYTools/SUSYObjDef_xAOD.h
 ===================================================================
---- SUSYTools/SUSYTools/SUSYObjDef_xAOD.h	(revision 806579)
+--- SUSYTools/SUSYTools/SUSYObjDef_xAOD.h	(revision 808461)
 +++ SUSYTools/SUSYTools/SUSYObjDef_xAOD.h	(working copy)
 @@ -293,7 +293,7 @@
  
@@ -94,7 +93,7 @@ Index: SUSYTools/SUSYTools/SUSYObjDef_xAOD.h
    const static SG::AuxElement::ConstAccessor<unsigned int> randomrunnumber("RandomRunNumber");
  
 +  const static SG::AuxElement::ConstAccessor<char> acc_photonPassCleaning("passCleaning");
-+  const static SG::AuxElement::ConstAccessor<char> acc_photonPassAmbiguity("passAmbiguity");
++  const static SG::AuxElement::ConstAccessor<char> acc_photonPassAmbiguity("passAmbiguity"); 
 +  const static SG::AuxElement::Decorator<char> dec_photonPassCleaning("passCleaning");
 +  const static SG::AuxElement::Decorator<char> dec_photonPassAmbiguity("passAmbiguity");
 +

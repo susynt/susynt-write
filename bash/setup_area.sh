@@ -51,7 +51,7 @@ function checkout_packages_external {
 
     cd ${PROD_DIR}
     # SUSYTools for ABR 2.4.24
-    svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-08-62 SUSYTools
+    svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-08-65 SUSYTools
 
 }
 
