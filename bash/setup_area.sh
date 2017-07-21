@@ -50,7 +50,7 @@ function checkout_packages_external {
     local SVN3GEN="svn+ssh://svn.cern.ch/reps/atlasphys-susy/Physics/SUSY/Analyses/StopSbottom"
 
     cd ${PROD_DIR}
-    # SUSYTools for ABR 2.4.24
+    # SUSYTools for ABR 2.4.32
     svn co ${SVNOFF}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-08-65 SUSYTools
 
 }
@@ -61,7 +61,7 @@ function checkout_packages_uci {
     then
         echo "---------------------------------------------"
         tput setaf 2
-        echo " You are checking out the tags for the n0231"
+        echo " You are checking out the tags for the n0234"
         echo " production of SusyNt."
         tput sgr0
         echo "---------------------------------------------"
@@ -71,7 +71,7 @@ function checkout_packages_uci {
         echo " SusyNtuple and SusyCommon."
         tput setaf 1
         echo " If you mean to write SusyNt's from the   "
-        echo " n0231 production, please call this script"
+        echo " n0234 production, please call this script"
         echo " with the '--stable' cmd line option."
         tput sgr0
         echo "---------------------------------------------"
@@ -84,7 +84,7 @@ function checkout_packages_uci {
     then
         git clone -b master git@github.com:susynt/SusyNtuple.git SusyNtuple
         cd SusyNtuple
-        git checkout SusyNtuple-00-05-07  # tag n0231
+        git checkout SusyNtuple-00-06-00  # tag n0234
         cd -
     else
         git clone -b master git@github.com:susynt/SusyNtuple.git SusyNtuple
@@ -93,7 +93,7 @@ function checkout_packages_uci {
     then
         git clone -b master git@github.com:susynt/SusyCommon.git SusyCommon
         cd SusyCommon
-        git checkout SusyCommon-00-04-00 # tag n0231
+        git checkout SusyCommon-00-05-00 # tag n0234
         cd -
     else
         git clone -b master git@github.com:susynt/SusyCommon.git SusyCommon
