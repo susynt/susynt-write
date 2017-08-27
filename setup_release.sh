@@ -11,8 +11,25 @@
 #
 ##########################################################
 
+default_release="AnalysisBase,21.2.2,here"
+
 function print_usage {
-    echo "PRINT USAGE"
+    echo "-------------------------------------------"
+    echo "setup_release"
+    echo ""
+    echo "Options:"
+    echo " -r|--release          Set the AnalysisBase release"
+    echo "                        > default: $default_release" 
+    echo " -c|--compile          Perform full compilation"
+    echo "                        > defualt: false"
+    echo " -h|--help             Print this help message"
+    echo ""
+    echo "Example usage:"
+    echo " - First time setup and compilation:" 
+    echo "    $ source setup_release --compile"
+    echo " - Area is compiled, but starting from new shell:"
+    echo "    $ source setup_release"
+    echo "-------------------------------------------"
 }
 
 function setup_release {
@@ -83,7 +100,8 @@ function setup_env {
 
 function main {
 
-    release="AnalysisBase,21.2.2,here"
+    #release="AnalysisBase,21.2.2,here"
+    release=$default_release
     compile=0
 
     while test $# -gt 0

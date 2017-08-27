@@ -12,7 +12,24 @@
 ######################################################################
 
 function print_usage {
-    echo "PRINT USAGE"
+    echo "------------------------------------------------"
+    echo "setup_area"
+    echo ""
+    echo "Options:"
+    echo " --stable             Checkout tag n0234 branches of SusyCommon and SusyNtuple" 
+    echo " --master             Checkout master branches of SusyCommon and SusyNtuple"
+    echo " --sn                 Set branch/tag to checkout for SusyNtuple"
+    echo " --sc                 Set branch/tag to checkout for SusyCommon"
+    echo " --skip-patch         Do not perform patch of SUSYTools"
+    echo " -h|--help            Print this help message"
+    echo ""
+    echo "Example usage:"
+    echo " - Setup the area for stable use:"
+    echo "   $ source setup_area.sh --stable"
+    echo " - Checkout 'cmake' and 'r21' branches of SusyNtuple and SusyCommon:"
+    echo "   $ source setup_area.sh --sn cmake --sc r21" 
+    echo " NB A tag/brach for SusyCommon AND SusyNtuple is required"
+    echo "------------------------------------------------"
 }
 
 function prepare_directories {
@@ -124,9 +141,11 @@ function main {
                 ;;
             -h)
                 print_usage
+                return 0
                 ;;
             --help)
                 print_usage
+                return 0
                 ;;
             *)
                 echo "ERROR Invalid argument: $1"
