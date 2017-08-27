@@ -28,7 +28,7 @@ function print_usage {
     echo "   $ source setup_area.sh --stable"
     echo " - Checkout 'cmake' and 'r21' branches of SusyNtuple and SusyCommon:"
     echo "   $ source setup_area.sh --sn cmake --sc r21" 
-    echo " NB A tag/brach for SusyCommon AND SusyNtuple is required"
+    echo " NB A tag/branch for SusyCommon AND SusyNtuple is required"
     echo "------------------------------------------------"
 }
 
