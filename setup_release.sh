@@ -21,7 +21,7 @@ function print_usage {
     echo " -r|--release          Set the AnalysisBase release"
     echo "                        > default: $default_release" 
     echo " -c|--compile          Perform full compilation"
-    echo "                        > defualt: false"
+    echo "                        > default: false"
     echo " -h|--help             Print this help message"
     echo ""
     echo "Example usage:"
