@@ -81,3 +81,11 @@ If you change any of the ```CMakeLists.txt``` files in any of the packages in *s
 ```
 source bash/setup_release.sh --compile
 ```
+
+or, if you do not want to completely remove the previous *build/* directory (and are sure that your changes are OK for this) you can simply do:
+
+```
+cd build/
+cmake ../source
+make
+```
