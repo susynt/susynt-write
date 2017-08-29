@@ -11,7 +11,7 @@
 #
 ##########################################################
 
-default_release="AnalysisBase,21.2.2,here"
+default_release="AnalysisBase,21.2.2,latest,here"
 
 function print_usage {
     echo "-------------------------------------------"
