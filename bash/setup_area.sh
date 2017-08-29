@@ -84,6 +84,79 @@ function get_externals {
     cd ${startdir}
 }
 
+function get_externals_git {
+
+    skip_patch=$1
+
+    # setup atlas git
+    echo "setup_area    Setting up ATLAS git"
+    lsetup git
+
+    startdir=${PWD}
+    sourcedir="./source/"
+    if [[ -d $sourcedir ]]; then
+        cd $sourcedir
+    else
+        echo "setup_area    ERROR No $sourcedir directory"
+        return 1
+    fi
+
+    sourcedir=${PWD}
+
+    echo "setup_area    Setting up the AnalysisBase release"
+    lsetup "asetup 21.2,AnalysisBase,latest,here"
+
+    echo "setup_area    Setting up sparseified ATLAS SW"
+    git atlas init-workdir https://:@gitlab.cern.ch:8443/atlas/athena.git
+
+    if [[ -d "./athena/" ]]; then
+        cmd="cd ./athena/"
+        $cmd
+    else
+        echo "setup_area    ERROR Did not get ATLAS SW repository (have you forked it yet?)"
+        return 1
+    fi
+
+    tag="21.2"
+    echo "setup_area    Checking out ATLAS SW release ${tag}" 
+    git checkout origin/${tag}
+    echo "setup_area    Checking out SUSYTools"
+    git atlas addpkg SUSYTools
+
+    cd $sourcedir
+
+    susydir="./athena/PhysicsAnalysis/SUSYPhys/SUSYTools/"
+    if [[ -d $susydir ]]; then
+        mv $susydir $sourcedir
+    else
+        echo "setup_area    ERROR SUSYTools directory not found"
+        return 1
+    fi
+
+    rmdir="./athena/Projects/"
+    if [[ -d $rmdir ]]; then
+        echo "setup_area    Removing Projects/ directory from ATLAS SW repo"
+        cmd="rm -r $rmdir"
+        $cmd
+    fi
+
+    patch_file="patchSUSYTools.patch"
+    if [[ $skip_patch == 0 ]]; then
+        if [[ -f $patch_file ]]; then
+            echo "Patching SUSYTools" 
+            patch -p0 < $patch_file
+        else
+            echo "Patch file '$patch_file' not found, cannot patch SUSYTools!"
+        fi
+    else 
+        echo "Skipping SUSYTools patch"
+    fi
+
+    cd $startdir
+
+}
+
+
 function get_susynt {
 
     sc_tag=$1
@@ -170,7 +243,8 @@ function main {
     echo "setup_area    Checking out SusyCommon tag :   $sc_tag"
 
     prepare_directories
-    get_externals $skip_patch
+    #get_externals $skip_patch
+    get_externals_git $skip_patch
     get_susynt $sc_tag $sn_tag
 
     echo "setup_area    Finished -- `date`"

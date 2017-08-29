@@ -11,7 +11,7 @@
 #
 ##########################################################
 
-default_release="AnalysisBase,21.2.2,latest,here"
+default_release="21.2,AnalysisBase,latest,here"
 
 function print_usage {
     echo "-------------------------------------------"
@@ -66,7 +66,7 @@ function compile_all_the_codes {
     echo "setup_release   Calling cmake"
     cmake ../source
     echo "setup_release   Calling make"
-    make
+    gmake
 
     cd $startdir
 }
