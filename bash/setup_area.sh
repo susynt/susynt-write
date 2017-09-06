@@ -43,7 +43,7 @@ function prepare_directories {
     fi
     mkdir -p $dirname
 
-    cp patchSUSYTools.patch $dirname 
+    #cp patchSUSYTools.patch $dirname 
 }
 
 function get_externals {
@@ -110,8 +110,18 @@ function get_externals_git {
     git atlas init-workdir -p SUSYTools https://:@gitlab.cern.ch:8443/susynt/athena.git
 
     if [[ -d "./athena/" ]]; then
-        cmd="cd ./athena/"
-        $cmd
+        #cmd="cd ./athena/"
+        #$cmd
+        cp patchSUSYTools.patch athena/
+        cd athena/
+        if [[ $skip_patch == 0 ]]; then
+            if [[ -f "patchSUSYTools.patch" ]]; then
+                echo "Patching SUSYTools"
+                patch -p0 < patchSUSYTools.patch
+            else
+                echo "Patch file 'patchSUSYTools.patch' not found, cannot patch SUSYTools!"
+            fi
+        fi
     else
         echo "setup_area    ERROR Did not get ATLAS SW repository (have you forked it yet?)"
         return 1
@@ -125,32 +135,31 @@ function get_externals_git {
 
     cd $sourcedir
 
-    susydir="./athena/PhysicsAnalysis/SUSYPhys/SUSYTools/"
-    if [[ -d $susydir ]]; then
-        mv $susydir $sourcedir
-    else
-        echo "setup_area    ERROR SUSYTools directory not found"
-        return 1
-    fi
+    #susydir="./athena/PhysicsAnalysis/SUSYPhys/SUSYTools/"
+    #if [[ -d $susydir ]]; then
+    #    mv $susydir $sourcedir
+    #else
+    #    echo "setup_area    ERROR SUSYTools directory not found"
+    #    return 1
+    #fi
 
     rmdir="./athena/Projects/"
     if [[ -d $rmdir ]]; then
-        echo "setup_area    Removing Projects/ directory from ATLAS SW repo"
         cmd="rm -r $rmdir"
         $cmd
     fi
 
-    patch_file="patchSUSYTools.patch"
-    if [[ $skip_patch == 0 ]]; then
-        if [[ -f $patch_file ]]; then
-            echo "Patching SUSYTools" 
-            patch -p0 < $patch_file
-        else
-            echo "Patch file '$patch_file' not found, cannot patch SUSYTools!"
-        fi
-    else 
-        echo "Skipping SUSYTools patch"
-    fi
+    #patch_file="patchSUSYTools.patch"
+    #if [[ $skip_patch == 0 ]]; then
+    #    if [[ -f $patch_file ]]; then
+    #        echo "Patching SUSYTools" 
+    #        patch -p0 < $patch_file
+    #    else
+    #        echo "Patch file '$patch_file' not found, cannot patch SUSYTools!"
+    #    fi
+    #else 
+    #    echo "Skipping SUSYTools patch"
+    #fi
 
     cd $startdir
 
