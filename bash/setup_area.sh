@@ -106,8 +106,8 @@ function get_externals_git {
     echo "setup_area    Setting up the AnalysisBase release"
     lsetup "asetup 21.2,AnalysisBase,latest,here"
 
-    echo "setup_area    Setting up sparseified ATLAS SW"
-    git atlas init-workdir https://:@gitlab.cern.ch:8443/atlas/athena.git
+    echo "setup_area    Setting up sparseified ATLAS SW from susynt fork"
+    git atlas init-workdir -p SUSYTools https://:@gitlab.cern.ch:8443/susynt/athena.git
 
     if [[ -d "./athena/" ]]; then
         cmd="cd ./athena/"
@@ -117,11 +117,11 @@ function get_externals_git {
         return 1
     fi
 
-    tag="21.2"
-    echo "setup_area    Checking out ATLAS SW release ${tag}" 
-    git checkout origin/${tag}
-    echo "setup_area    Checking out SUSYTools"
-    git atlas addpkg SUSYTools
+    #tag="21.2"
+    #echo "setup_area    Checking out ATLAS SW release ${tag}" 
+    #git checkout origin/${tag}
+    #echo "setup_area    Checking out SUSYTools"
+    #git atlas addpkg SUSYTools
 
     cd $sourcedir
 
