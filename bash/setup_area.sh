@@ -46,44 +46,6 @@ function prepare_directories {
     #cp patchSUSYTools.patch $dirname 
 }
 
-function get_externals {
-
-    skip_patch=$1
-
-    svnoff="svn+ssh://svn.cern.ch/reps/atlasoff/"
-    svnphys="svn+ssh://svn.cern.ch/reps/atlasphys/"
-    svnweak="svn+ssh://svn.cern.ch/reps/atlasphys/Physics/SUSY/Analyses/WeakProduction/"
-    svn3gen="svn+ssh://svn.cern.ch/reps/atlasphys-susy/Physics/SUSY/Analyses/StopSbottom"
-
-    dirname="./source/"
-    startdir=${PWD}
-    if [[ -d $dirname ]]; then
-        cd $dirname
-    else
-        echo "ERROR get_externals $dirname directory not found"
-        return 1
-    fi
-
-    # SUSYTools
-    svn co ${svnoff}/PhysicsAnalysis/SUSYPhys/SUSYTools/tags/SUSYTools-00-08-65 SUSYTools
-
-    # patch
-    patch_file="patchSUSYTools.patch"
-    if [[ $skip_patch == 0 ]]; then
-        if [[ -f $patch_file ]]; then
-            echo "Patching SUSYTools" 
-            patch -p0 < $patch_file
-        else
-            echo "Patch file '$patch_file' not found, cannot patch SUSYTools!"
-        fi
-    else 
-        echo "Skipping SUSYTools patch"
-    fi
-
-    # go back
-    cd ${startdir}
-}
-
 function get_externals_git {
 
     skip_patch=$1
@@ -107,17 +69,23 @@ function get_externals_git {
     lsetup "asetup 21.2,AnalysisBase,latest,here"
 
     echo "setup_area    Setting up sparseified ATLAS SW from susynt fork"
-    git atlas init-workdir -p SUSYTools https://:@gitlab.cern.ch:8443/susynt/athena.git
+    git atlas init-workdir https://:@gitlab.cern.ch:8443/susynt/athena.git
+    athenatag="21.2"
 
     if [[ -d "./athena/" ]]; then
-        #cmd="cd ./athena/"
-        #$cmd
-        cp patchSUSYTools.patch athena/
-        cd athena/
+
+        cd $startdir
+        cp patchSUSYTools.patch $sourcedir/athena/
+        cd $sourcedir/athena/
+
+        echo "setup_area    Checking out ATLAS SW release ${athenatag}"
+        git checkout origin/${athenatag} 
+        git atlas addpkg SUSYTools
+
         if [[ $skip_patch == 0 ]]; then
             if [[ -f "patchSUSYTools.patch" ]]; then
                 echo "Patching SUSYTools"
-                patch -p0 < patchSUSYTools.patch
+                git apply patchSUSYTools.patch
             else
                 echo "Patch file 'patchSUSYTools.patch' not found, cannot patch SUSYTools!"
             fi
@@ -127,39 +95,13 @@ function get_externals_git {
         return 1
     fi
 
-    #tag="21.2"
-    #echo "setup_area    Checking out ATLAS SW release ${tag}" 
-    #git checkout origin/${tag}
-    #echo "setup_area    Checking out SUSYTools"
-    #git atlas addpkg SUSYTools
-
     cd $sourcedir
-
-    #susydir="./athena/PhysicsAnalysis/SUSYPhys/SUSYTools/"
-    #if [[ -d $susydir ]]; then
-    #    mv $susydir $sourcedir
-    #else
-    #    echo "setup_area    ERROR SUSYTools directory not found"
-    #    return 1
-    #fi
 
     rmdir="./athena/Projects/"
     if [[ -d $rmdir ]]; then
         cmd="rm -r $rmdir"
         $cmd
     fi
-
-    #patch_file="patchSUSYTools.patch"
-    #if [[ $skip_patch == 0 ]]; then
-    #    if [[ -f $patch_file ]]; then
-    #        echo "Patching SUSYTools" 
-    #        patch -p0 < $patch_file
-    #    else
-    #        echo "Patch file '$patch_file' not found, cannot patch SUSYTools!"
-    #    fi
-    #else 
-    #    echo "Skipping SUSYTools patch"
-    #fi
 
     cd $startdir
 
@@ -252,7 +194,6 @@ function main {
     echo "setup_area    Checking out SusyCommon tag :   $sc_tag"
 
     prepare_directories
-    #get_externals $skip_patch
     get_externals_git $skip_patch
     get_susynt $sc_tag $sn_tag
 
